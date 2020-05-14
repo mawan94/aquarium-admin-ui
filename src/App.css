@@ -1,3 +1,4 @@
+@import '~antd/dist/antd.css';
 .App {
   text-align: center;
 }
@@ -35,4 +36,65 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.light-row {
+  background-color: #ffffff;
+}
+
+.dark-row {
+  background-color: #FFF5EE;
+}
+
+
+.header {
+  line-height: 64px;
+  padding: 0 24px;
+  z-index: 10;
+  position: relative;
+  background-color: #fff;
+}
+.header-right {
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.form-item {
+  margin-bottom: 20px !important;
+}
+
+.login {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: #f0f2f5;
+}
+
+.login-body {
+  background: url('./svg/TVYTbAXWheQpRcWDaDMu.svg') no-repeat center;
+  width: 100%;
+  min-height: 100%;
+  background-size: 100%;
+  padding: 110px 0 144px 0;
+  position: relative;
+}
+
+.login-body-form {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  margin-left: -195px;
+  margin-top: -200px;
+  width: 390px;
+}
+
+.login-body-form-title {
+  margin:  0px  0px 40px 0px;
+  font-size: 30px;
+  font-weight: 400;
+  text-align: center;
 }
