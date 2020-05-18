@@ -50,5 +50,13 @@ const list = [
         key: 'category',
         router: require('../view/category/router/category').default
     },
+    {
+        key: 'supplier',
+        router: require('../view/supplier/router/supplier').default
+    },
+    {
+        key: 'banner',
+        router: require('../view/banner/router/banner').default
+    },
 ];
 export default {list: list};

@@ -3,6 +3,70 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+
+    getBannerList(params) {
+        return get({
+            url: constant.host + '/banner/b/v1/list',
+            params: params
+        })
+    },
+    getBanner(params) {
+        return get({
+            url: constant.host + '/banner/b/v1/find',
+            params: params
+        })
+    },
+    addBanner(params) {
+        return post({
+            url: constant.host + '/banner/b/v1/add',
+            data: params
+        })
+    },
+    updateBanner(params) {
+        return post({
+            url: constant.host + '/banner/b/v1/modify',
+            data: params
+        })
+    },
+    deleteBanner(params) {
+        return post({
+            url: constant.host + '/banner/b/v1/del',
+            data: params
+        })
+    },
+
+
+    getSupplierList(params) {
+        return get({
+            url: constant.host + '/supplier/b/v1/list',
+            params: params
+        })
+    },
+    getSupplier(params) {
+        return get({
+            url: constant.host + '/supplier/b/v1/find',
+            params: params
+        })
+    },
+    addSupplier(params) {
+        return post({
+            url: constant.host + '/supplier/b/v1/add',
+            data: params
+        })
+    },
+    updateSupplier(params) {
+        return post({
+            url: constant.host + '/supplier/b/v1/modify',
+            data: params
+        })
+    },
+    deleteSupplier(params) {
+        return post({
+            url: constant.host + '/supplier/b/v1/del',
+            data: params
+        })
+    },
+
     getCategoryList(params) {
         return get({
             url: constant.host + '/category/b/v1/list',
@@ -15,7 +79,7 @@ const server = {
             params: params
         })
     },
-    getParentCategory(params) {
+    getCategory(params) {
         return get({
             url: constant.host + '/category/b/v1/find',
             params: params

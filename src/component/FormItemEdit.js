@@ -28,7 +28,7 @@ export default class FormItemEdit extends React.Component {
     componentDidMount() {
         let {initValue} = this.props;
         if (initValue) {
-            this.setState({editorState:BraftEditor.createEditorState(initValue)})
+            this.setState({editorState: BraftEditor.createEditorState(initValue)})
         }
     }
 
@@ -37,6 +37,7 @@ export default class FormItemEdit extends React.Component {
             editorState: editorState,
             outputHTML: editorState.toHTML()
         })
+        this.props.handleFormItemChange(editorState.toHTML(), this.props.fieldName)
     }
 
     // 上传校验
@@ -53,11 +54,11 @@ export default class FormItemEdit extends React.Component {
         const successFn = (response) => {
             // 假设服务端直接返回文件上传后的地址
             // 上传成功后调用param.success并传入上传后的文件地址
-            let file  = JSON.parse(xhr.response)[0];
+            let file = JSON.parse(xhr.response)[0];
             console.log(JSON.parse(xhr.response))
             param.success({
                 url: 'http://q7oyh3ppo.bkt.clouddn.com' + file.filePath,
-                width:'100%',
+                width: '100%',
                 meta: {
                     // id: 'xxx',
                     // title: 'xxx',
@@ -157,7 +158,7 @@ export default class FormItemEdit extends React.Component {
                 {/*/>*/}
 
                 <BraftEditor
-                    media={{uploadFn: this.myUploadFn,validateFn: this.myValidateFn}}
+                    media={{uploadFn: this.myUploadFn, validateFn: this.myValidateFn}}
                     value={editorState}
                     onChange={this.handleChange}
                 />

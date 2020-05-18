@@ -1,7 +1,7 @@
 const constant = {
     projectName: 'Hubject',
     description: '充电财务系统',
-    imgHost: 'http://q7oyh3ppo.bkt.clouddn.com',
+    imgHost: 'http://file.ddminihome.com',
 
     host: 'http://127.0.0.1:8778',
     // host: 'http://adapter-qa.hubject-hbs.cn',

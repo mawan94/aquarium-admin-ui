@@ -22,7 +22,7 @@ export default class FormItemPicturesWall extends React.Component {
             if (initValue.length) {
                 initValue.map(item => {
                     item.uid = item.fileId;
-                    item.url = constant.imageHost + item.filePath
+                    item.url = constant.imgHost + item.filePath
                 });
                 this.setState({fileList: initValue})
             }
@@ -52,7 +52,6 @@ export default class FormItemPicturesWall extends React.Component {
     };
 
 
-
     handleChange = ({fileList}) => {
         this.setState({fileList});
         let {handleFormItemChange, fieldName} = this.props;
@@ -64,10 +63,10 @@ export default class FormItemPicturesWall extends React.Component {
             this.state.fileList.map(item => {
                 let tempObj = {};
                 if (item.response) { //upload
-                    tempObj = {fileId:item.response[0].fileId,filePath:item.response[0].filePath};
+                    tempObj = {fileId: item.response[0].fileId, filePath: item.response[0].filePath};
                     files.push(tempObj)
-                }else { //delete
-                    tempObj = {fileId:item.fileId,filePath:item.filePath};
+                } else { //delete
+                    tempObj = {fileId: item.fileId, filePath: item.filePath};
                     files.push(tempObj)
                 }
             });
@@ -87,7 +86,7 @@ export default class FormItemPicturesWall extends React.Component {
         return (
             <div className="clearfix">
                 <Upload
-                    action={constant.host + "/file/v1/upload/image"}
+                    action={constant.host + "/file/v1/upload"}
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={this.handlePreview}

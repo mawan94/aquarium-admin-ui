@@ -15,30 +15,23 @@ export default class Detail extends React.Component {
         this.state = {
             formItemList: [
                 {
-                    fieldName: 'categoryName',
-                    labelName: '分类名称',
+                    fieldName: 'supplierName',
+                    labelName: '供应商名称',
                     formItemType: FORM_ITEM_TYPE.TEXT,
                     initValue: '',
                     required: true,
                 }, {
-                    fieldName: 'weight',
-                    labelName: '展示优先级',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    fieldName: 'supplierTel',
+                    labelName: '供应商电话',
+                    formItemType: FORM_ITEM_TYPE.TEXT,
                     initValue: '',
                     required: true,
                 }, {
-                    fieldName: 'parentId',
-                    labelName: '父级分类',
-                    formItemType: FORM_ITEM_TYPE.SELECT,
+                    fieldName: 'memorandum',
+                    labelName: '备注',
+                    formItemType: FORM_ITEM_TYPE.EDIT,
                     initValue: null,
-                    optionList: [],
                     required: false
-                }, {
-                    fieldName: 'display',
-                    labelName: '是否展示',
-                    formItemType: FORM_ITEM_TYPE.SWITCH,
-                    initValue: 1,
-                    required: true,
                 }
                 // , {
                 //     fieldName: 'images',
@@ -56,39 +49,30 @@ export default class Detail extends React.Component {
     componentDidMount() {
         let {formItemList} = this.state;
         if (this.props.match.params.id) {
-            api.getCategory({productCategoryId: this.props.match.params.id}).then(res => {
+            api.getSupplier({supplierId: this.props.match.params.id}).then(res => {
                 if (res.data) {
                     formItemList.map((item, index) => {
                         let key = item.fieldName;
                         formItemList[index].initValue = res.data[key]
                         console.log(`key: ${key}  initVal: ${res.data[key]}`)
                     })
-                    this.handleLoadParentCategories(formItemList)
+                    this.setState({formItemList})
                 }
             })
-        }else {
-            this.handleLoadParentCategories(formItemList)
+        } else {
+            this.setState({formItemList})
         }
-    }
-
-    // // 加载分类下拉列表
-    handleLoadParentCategories = (formItemList) => {
-        api.getParentCategoryList().then(res => {
-            this.setState({
-                formItemList: util.initSelectDefaultValues('parentId', res.data, formItemList)
-            })
-        })
     }
 
     //表单提交
     handleSubmitForm = (params) => {
-        params.categoryId = this.props.match.params.id;
-        if (params.categoryId) {
-            api.updateCategory(params).then(res => {
+        params.supplierId = this.props.match.params.id;
+        if (params.supplierId) {
+            api.updateSupplier(params).then(res => {
                 this.props.history.goBack()
             })
         } else {
-            api.addCategory(params).then(res => {
+            api.addSupplier(params).then(res => {
                 this.props.history.goBack()
             })
         }
