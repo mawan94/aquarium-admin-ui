@@ -1,9 +1,11 @@
 import React from 'react'
 import {notification, Upload, message, Button, Card} from 'antd';
 
-import ModifyForm from '../../../component/ModifyForm'
+import Detail_Form from '../../../component/Detail_Form'
 import FORM_ITEM_TYPE from '../../../common/formItemType'
 import api from '../../../common/api'
+import util from '../../../common/util'
+
 import storage from '../../../common/storage'
 import constant from '../../../common/constant'
 
@@ -13,81 +15,90 @@ export default class Detail extends React.Component {
         this.state = {
             formItemList: [
                 {
-                    fieldName: 'avatarName',
-                    labelName: '作者名称',
+                    fieldName: 'categoryName',
+                    labelName: '分类名称',
                     formItemType: FORM_ITEM_TYPE.TEXT,
                     initValue: '',
                     required: true,
                 }, {
-                    fieldName: 'images',
-                    labelName: '商品缩略图',
-                    initValue: [],
-                    formItemType: FORM_ITEM_TYPE.IMAGE,
-                    uploadMaxCount: 1,
-                    required: true
-                }
-                , {
-                    fieldName: 'avatarType',
-                    labelName: '角色类型',
+                    fieldName: 'weight',
+                    labelName: '展示优先级',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'parentId',
+                    labelName: '父级分类',
                     formItemType: FORM_ITEM_TYPE.SELECT,
+                    initValue: null,
+                    optionList: [],
+                    required: false
+                }, {
+                    fieldName: 'display',
+                    labelName: '是否展示',
+                    formItemType: FORM_ITEM_TYPE.SWITCH,
                     initValue: 1,
-                    optionList: [{key: 1, value: '作者'}, {key: 2, value: '虚拟会员'}],
-                    required: true
+                    required: true,
                 }
+                // , {
+                //     fieldName: 'images',
+                //     labelName: '商品缩略图',
+                //     initValue: [],
+                //     formItemType: FORM_ITEM_TYPE.IMAGE,
+                //     uploadMaxCount: 1,
+                //     required: true
+                // }
+
             ]
         }
     };
+
     componentDidMount() {
         let {formItemList} = this.state;
         if (this.props.match.params.id) {
-            //加载数据回显
-            // http.request({
-            //     url: '/backend/avatar/v1/find',
-            //     data: {
-            //         avatarId: this.props.match.params.id
-            //     },
-            //     method: 'get',
-            //     success: (response) => {
-            //         if (response.data) {
-            //             formItemList.map((item, index) => {
-            //                 let key = item.fieldName;
-            //                 console.log(response.data[key])
-            //                 formItemList[index].initValue = response.data[key]
-            //             })
-            //             this.setState({formItemList})
-            //         }
-            //     },
-            //     complete: () => {
-            //     }
-            // })
-
-        } else {//add
-            this.setState({formItemList})
+            api.getParentCategory({productCategoryId: this.props.match.params.id}).then(res => {
+                if (res.data) {
+                    formItemList.map((item, index) => {
+                        let key = item.fieldName;
+                        formItemList[index].initValue = res.data[key]
+                        console.log(`key: ${key}  initVal: ${res.data[key]}`)
+                    })
+                    this.handleLoadParentCategories(formItemList)
+                }
+            })
+        }else {
+            this.handleLoadParentCategories(formItemList)
         }
+    }
+
+    // // 加载分类下拉列表
+    handleLoadParentCategories = (formItemList) => {
+        api.getParentCategoryList().then(res => {
+            this.setState({
+                formItemList: util.initSelectDefaultValues('parentId', res.data, formItemList)
+            })
+        })
     }
 
     //表单提交
     handleSubmitForm = (params) => {
-        // params.avatarId = this.props.match.params.id;
-        // http.request({
-        //     url: this.props.match.params.id ? '/backend/avatar/v1/modify' : '/backend/avatar/v1/add',
-        //     data: {
-        //         ...params
-        //     },
-        //     method: 'post',
-        //     success: (response) => {
-        //         this.props.history.goBack()
-        //     },
-        //     complete: () => {
-        //     }
-        // })
-
+        params.categoryId = this.props.match.params.id;
+        if (params.categoryId) {
+            api.updateCategory(params).then(res => {
+                this.props.history.goBack()
+            })
+        } else {
+            api.addCategory(params).then(res => {
+                this.props.history.goBack()
+            })
+        }
     }
 
     render() {
         return (
             <div>
-                <ModifyForm formItemList={this.state.formItemList} handleSubmitForm={this.handleSubmitForm}/>
+                <Detail_Form formItemList={this.state.formItemList}
+                             handleSubmitForm={this.handleSubmitForm}/>
             </div>
         )
     }

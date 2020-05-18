@@ -3,6 +3,43 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+    getCategoryList(params) {
+        return get({
+            url: constant.host + '/category/b/v1/list',
+            params: params
+        })
+    },
+    getParentCategoryList(params) {
+        return get({
+            url: constant.host + '/category/b/v1/parentCategory',
+            params: params
+        })
+    },
+    getParentCategory(params) {
+        return get({
+            url: constant.host + '/category/b/v1/find',
+            params: params
+        })
+    },
+    addCategory(params) {
+        return post({
+            url: constant.host + '/category/b/v1/add',
+            data: params
+        })
+    },
+    updateCategory(params) {
+        return post({
+            url: constant.host + '/category/b/v1/modify',
+            data: params
+        })
+    },
+    deleteCategory(params) {
+        return post({
+            url: constant.host + '/category/b/v1/del',
+            data: params
+        })
+    },
+//
     // http://adapter.hubject-hbs.cn/reconciliation
     // 获取cecPartner，初始化下拉框
     cecPartnerSelector(params) {

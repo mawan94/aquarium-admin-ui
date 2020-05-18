@@ -5,13 +5,14 @@ import {withRouter} from 'react-router-dom';
 import FORM_ITEM_TYPE from '../common/formItemType'
 import FormItemPicturesWall from './FormItemPicturesWall'
 import FormItemMultipleSelect from './FormItemMultipleSelect'
-import FormItemInput from './FormItemInput'
+import FormItemInput from './FormItemInput_Edit'
 import FormItemDatePicker from './FormItemDatePicker'
-import FormItemSelect from './FormItemSelect'
+import FormItemSelect from './FormItemSelect_Edit'
 import FormItemCascader from './FormItemCascader'
 import FormItemSlider from "./FormItemSlider";
 import FormItemEdit from './FormItemEdit'
 import PropTypes from "prop-types";
+import FormItemSwitch from "./FormItemSwitch";
 
 const FormItem = Form.Item;
 // formItem css 样式
@@ -39,7 +40,7 @@ const tailFormItemLayout = {
     }
 };
 
-class ModifyForm extends React.Component {
+class Detail_Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,7 +62,7 @@ class ModifyForm extends React.Component {
         this.setState({
             formItemList: props.formItemList
         })
-        props.formItemList.map((item)=>{
+        props.formItemList.map((item) => {
             let tempObj = {};
             tempObj[item.fieldName] = item.initValue;
             this.setState({...tempObj});
@@ -160,6 +161,13 @@ class ModifyForm extends React.Component {
                                      handleFormItemChange={this.handleFormItemChange}
                 />;
                 break;
+            case FORM_ITEM_TYPE.SWITCH:
+                return <FormItemSwitch fieldName={item.fieldName}
+                                       setDefaultValue={this.setDefaultValue}
+                                       initValue={item.initValue}
+                                       handleFormItemChange={this.handleFormItemChange}
+                />;
+                break;
             case FORM_ITEM_TYPE.MULTIPLE_SELECT:
                 return (
                     <FormItemMultipleSelect fieldName={item.fieldName}
@@ -214,4 +222,4 @@ class ModifyForm extends React.Component {
     }
 }
 
-export default withRouter(Form.create()(ModifyForm))
+export default withRouter(Form.create()(Detail_Form))

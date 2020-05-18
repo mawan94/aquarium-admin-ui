@@ -62,6 +62,7 @@ export default class MyTable extends React.Component {
                            expandedRowRender={this.props.expandedRowRender}
                            pagination={pagination}
                            onRow={this.props.onRow}
+                           rowKey={this.props.rowKey}
                     />
                 </Card>
             </div>

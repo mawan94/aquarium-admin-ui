@@ -33,12 +33,12 @@ http.interceptors.response.use(
         // 对响应数据做点什么
         return response;
     }, function (error) {
-        if (error.response.data && !error.response.data.success && error.response.data.message) {
-            message.error(error.response.data.message);
+        if (error.response.data && !error.response.data.success && error.response.data.msg) {
+            message.error(error.response.data.msg);
             let code = error.response.data.code
-            if (code == ERROR_CODE.ILLEGAL_TOKEN ) {
-                alert('token失效，请重新登录!')
-            }
+            // if (code == ERROR_CODE.ILLEGAL_TOKEN ) {
+            //     alert('token失效，请重新登录!')
+            // }
         }
         return Promise.reject(error);
     }
