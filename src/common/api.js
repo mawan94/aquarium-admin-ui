@@ -3,6 +3,55 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+    getSupplierSelectors(params) {
+        return get({
+            url: constant.host + '/supplier/b/v1/supplier',
+            params: params
+        })
+    },
+    getCategorySelectors(params) {
+        return get({
+            url: constant.host + '/category/b/v1/category',
+            params: params
+        })
+    },
+    getSkuListByProductId(params) {
+        return get({
+            url: constant.host + '/sku/b/v1/list-by-product-id',
+            params: params
+        })
+    },
+    getProductList(params) {
+        return get({
+            url: constant.host + '/product/b/v1/list',
+            params: params
+        })
+    },
+    getProduct(params) {
+        return get({
+            url: constant.host + '/product/b/v1/find',
+            params: params
+        })
+    },
+    addProduct(params) {
+        return post({
+            url: constant.host + '/product/b/v1/add',
+            data: params
+        })
+    },
+    updateProduct(params) {
+        return post({
+            url: constant.host + '/product/b/v1/modify',
+            data: params
+        })
+    },
+    deleteProduct(params) {
+        return post({
+            url: constant.host + '/product/b/v1/del',
+            data: params
+        })
+    },
+
 
     getBannerList(params) {
         return get({

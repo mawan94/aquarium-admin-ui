@@ -30,6 +30,7 @@ const menuList = [
     {key: '12',label: 'testcategory', navLink: '/category/index', icon: ''},
     {key: '1211',label: 'sssupplierer', navLink: '/supplier/index', icon: ''},
     {key: '14211',label: 'bbbbanner', navLink: '/banner/index', icon: ''},
+    {key: '142111',label: 'product', navLink: '/product/index', icon: ''},
 
 
     //=============================================================================

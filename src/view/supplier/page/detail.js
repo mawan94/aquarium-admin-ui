@@ -1,13 +1,8 @@
 import React from 'react'
-import {notification, Upload, message, Button, Card} from 'antd';
 
 import Detail_Form from '../../../component/Detail_Form'
 import FORM_ITEM_TYPE from '../../../common/formItemType'
 import api from '../../../common/api'
-import util from '../../../common/util'
-
-import storage from '../../../common/storage'
-import constant from '../../../common/constant'
 
 export default class Detail extends React.Component {
     constructor(props) {
@@ -33,15 +28,6 @@ export default class Detail extends React.Component {
                     initValue: null,
                     required: false
                 }
-                // , {
-                //     fieldName: 'images',
-                //     labelName: '商品缩略图',
-                //     initValue: [],
-                //     formItemType: FORM_ITEM_TYPE.IMAGE,
-                //     uploadMaxCount: 1,
-                //     required: true
-                // }
-
             ]
         }
     };

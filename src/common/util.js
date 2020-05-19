@@ -7,6 +7,13 @@ const util = {
             }
         })
         return formItemList;
+    },
+    S4: () => {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    },
+    guid: () => {
+        return (util.S4() + util.S4() + "-" + util.S4() + "-" + util.S4() + "-" + util.S4() + "-" + util.S4() + util.S4() + util.S4());
     }
 }
+
 export default util;

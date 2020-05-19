@@ -58,5 +58,9 @@ const list = [
         key: 'banner',
         router: require('../view/banner/router/banner').default
     },
+    {
+        key: 'product',
+        router: require('../view/product/router/product').default
+    }
 ];
 export default {list: list};

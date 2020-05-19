@@ -32,7 +32,6 @@ export default class FormItemInput_Edit extends Component {
         let {fieldName, formItemType, handleFormItemChange, initValue} = this.props;
         return (
             formItemType === FORM_ITEM_TYPE.TEXT ?
-
                 <Input onChange={(e) => {
                     handleFormItemChange(e.target.value, fieldName)
                 }} defaultValue={initValue}/> :

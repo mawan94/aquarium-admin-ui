@@ -42,22 +42,21 @@ export default class FormItemEdit extends React.Component {
 
     // 上传校验
     myValidateFn = (file) => {
-        return file.size < 1024 * 1024 * 8
+        return file.size < 1024 * 1024 * 30
     }
 
     // 上传到指定服务器
     myUploadFn = (param) => {
-        const serverURL = constant.host + '/reconciliation/file/v1/upload'
+        const serverURL = constant.host + '/file/v1/upload'
         const xhr = new XMLHttpRequest
         const fd = new FormData()
-
         const successFn = (response) => {
             // 假设服务端直接返回文件上传后的地址
             // 上传成功后调用param.success并传入上传后的文件地址
             let file = JSON.parse(xhr.response)[0];
-            console.log(JSON.parse(xhr.response))
+            // console.log(JSON.parse(xhr.response))
             param.success({
-                url: 'http://q7oyh3ppo.bkt.clouddn.com' + file.filePath,
+                url: constant.imgHost + file.filePath,
                 width: '100%',
                 meta: {
                     // id: 'xxx',
@@ -93,70 +92,10 @@ export default class FormItemEdit extends React.Component {
 
     }
 
-
-    // handleEditorChange = (editorState) => {
-    //     this.setState({editorState})
-    //     this.props.handleFormItemChange(editorState.toHTML(), this.props.fieldName)
-    // }
-    //
-    //
-    // uploadFn = (param) => {
-    //     const serverURL = constant.host + '/file/v1/upload/image'
-    //     const xhr = new XMLHttpRequest
-    //     const fd = new FormData()
-    //     const successFn = (response) => {
-    //         // 假设服务端直接返回文件上传后的地址
-    //         // 上传成功后调用param.success并传入上传后的文件地址
-    //         param.success({
-    //             url: constant.imageHost + JSON.parse(xhr.responseText)[0].filePath,
-    //             width:'100%',
-    //             meta: {
-    //                 // id: 'xxx',
-    //                 // title: 'xxx',
-    //                 alt: '图片走丢了~',
-    //                 loop: true, // 指定音视频是否循环播放
-    //                 autoPlay: true, // 指定音视频是否自动播放
-    //                 controls: true, // 指定音视频是否显示控制栏
-    //                 // poster: 'http://xxx/xx.png', // 指定视频播放器的封面
-    //             }
-    //         })
-    //     }
-    //
-    //     const progressFn = (event) => {
-    //         // 上传进度发生变化时调用param.progress
-    //         param.progress(event.loaded / event.total * 100)
-    //     }
-    //
-    //     const errorFn = (response) => {
-    //         // 上传发生错误时调用param.error
-    //         param.error({
-    //             msg: 'unable to upload.'
-    //         })
-    //     }
-    //
-    //     xhr.upload.addEventListener("progress", progressFn, false)
-    //     xhr.addEventListener("load", successFn, false)
-    //     xhr.addEventListener("error", errorFn, false)
-    //     xhr.addEventListener("abort", errorFn, false)
-    //
-    //     fd.append('file', param.file)
-    //     xhr.open('POST', serverURL, true)
-    //     xhr.send(fd)
-    // }
-
     render() {
         const {editorState} = this.state
-        // let editorState = BraftEditor.createEditorState(this.props.initValue ? this.props.initValue : null)
         return (
             <div className="my-component">
-                {/*<BraftEditor*/}
-                {/*    media={{*/}
-                {/*        uploadFn: this.uploadFn*/}
-                {/*    }}*/}
-                {/*    value={editorState}*/}
-                {/*    onChange={this.handleEditorChange}*/}
-                {/*/>*/}
-
                 <BraftEditor
                     media={{uploadFn: this.myUploadFn, validateFn: this.myValidateFn}}
                     value={editorState}

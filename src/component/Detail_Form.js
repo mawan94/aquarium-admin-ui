@@ -50,6 +50,7 @@ class Detail_Form extends React.Component {
 
     static propTypes = {
         formItemList: PropTypes.array.isRequired,
+        cardName: PropTypes.string,
         // setDefaultValue: PropTypes.func.isRequired,
         handleSubmitForm: PropTypes.func.isRequired,
     };
@@ -83,6 +84,7 @@ class Detail_Form extends React.Component {
 
     handleSubmit = () => {
         let validateFlag = true;
+        console.error(this.state)
         this.props.formItemList.map((item) => {
             if (item.required) {
                 let k = item.fieldName;
@@ -184,11 +186,11 @@ class Detail_Form extends React.Component {
     }
 
     render() {
-        // let {formItemList} = this.props;
+        let {cardName} = this.props;
         let {formItemList} = this.state;
         return (
             <Card
-                title="表单信息"
+                title={cardName ? cardName : '表单信息'}
                 extra={<Button onClick={() => this.props.history.goBack()}>返回</Button>}
                 style={{height: '100%', margin: '30px'}}
             >
