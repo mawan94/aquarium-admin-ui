@@ -60,7 +60,7 @@ export default class Detail extends React.Component {
 
     componentDidMount() {
         let {formItemList} = this.state;
-        let {productId, skuId} = this.props.match.params;
+        let {skuId} = this.props.match.params;
         if (skuId) {
             api.getSku({skuId}).then(res => {
                 if (res.data) {

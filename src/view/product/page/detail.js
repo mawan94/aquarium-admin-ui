@@ -124,30 +124,32 @@ class Detail extends React.Component {
 
     //表单提交
     handleSubmitForm = (params) => {
-        let {child} = this.state
-        let {skuFormItemList} = child.state
-        if (!child.validateSkuListForm()) return;
         params.productId = this.props.match.params.id;
-        // 组装请求参数
         let productBO = {};
-        let skuInfoList = []
-        skuFormItemList.map(item => {
-            let skuInfo = {}
-            item.value.map(inner => {
-                skuInfo[inner.fieldName] = inner.initValue
+        if (!params.productId) {
+            let {child} = this.state
+            let {skuFormItemList} = child.state
+            if (!child.validateSkuListForm()) return;
+            // 组装请求参数
+            let skuInfoList = []
+            skuFormItemList.map(item => {
+                let skuInfo = {}
+                item.value.map(inner => {
+                    skuInfo[inner.fieldName] = inner.initValue
+                })
+                skuInfo.productId = params.productId
+                skuInfoList.push(skuInfo)
             })
-            skuInfo.productId = params.productId
-            skuInfoList.push(skuInfo)
-        })
-        productBO.productEditBO = params
-        productBO.skuEditBOS = skuInfoList
+            productBO.productEditBO = params
+            productBO.skuEditBOS = skuInfoList
 
-        if (params.productId) {
-            api.updateProduct(productBO).then(res => {
+            api.addProduct(productBO).then(res => {
                 this.props.history.goBack()
             })
         } else {
-            api.addProduct(productBO).then(res => {
+            productBO.productEditBO = params
+            productBO.skuEditBOS = []
+            api.updateProduct(productBO).then(res => {
                 this.props.history.goBack()
             })
         }
@@ -353,7 +355,6 @@ class SkuList extends React.Component {
         })
         this.setState({skuFormItemList})
         message.info('操作成功');
-        console.log(this.state)
     }
 
     // 移除子集

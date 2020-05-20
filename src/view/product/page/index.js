@@ -5,6 +5,8 @@ import api from '../../../common/api'
 import constant from '../../../common/constant'
 import MyImg from '../../../component/MyImg'
 import MyTable from '../../../component/MyTable'
+import FORM_ITEM_TYPE from "../../../common/formItemType";
+import MyForm from "../../../component/MyForm";
 
 const confirm = Modal.confirm;
 
@@ -12,6 +14,9 @@ export default class Index extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            // 表单条件
+            condition: {},
+
             data: [],
             pageIndex: 1,
             pageSize: 10,
@@ -26,7 +31,7 @@ export default class Index extends React.Component {
 
 
     handleSearch = (pageIndex, pageSize) => {
-        api.getProductList({pageIndex, pageSize}).then(res => {
+        api.getProductList({...this.state.condition, pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
             this.setState({total, data: records})
         })
@@ -115,6 +120,36 @@ export default class Index extends React.Component {
         ]
         return (
             <div>
+                <MyForm _this={this} onRowDisplayNum={3} bindName={'condition'} fields={
+                    [
+                        {
+                            fieldType: FORM_ITEM_TYPE.INPUT,
+                            labelName: '商品编号',
+                            fieldName: 'productId'
+                        },
+                        // {
+                        //     fieldType: FORM_ITEM_TYPE.SELECT,
+                        //     labelName: 'CPO',
+                        //     fieldName: 'cpoId',
+                        //     optionList: this.state.cecPartner.cpoList
+                        // },
+                        {
+                            fieldType: FORM_ITEM_TYPE.INPUT,
+                            labelName: '商品名称',
+                            fieldName: 'productName'
+                        }
+                    ]}
+                        buttonList={[
+                            {
+                                type: "primary", text: '搜索', callback: () => {
+                                    this.setState({
+                                        pageIndex: 1,
+                                        pageSize: 10
+                                    })
+                                    this.handleSearch(this.state.pageIndex, this.state.pageSize)
+                                }
+                            }
+                        ]}/>
                 {/* 列表数据 */}
                 <MyTable
                     buttonClick={() => {
