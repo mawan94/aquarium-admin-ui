@@ -221,21 +221,36 @@ class InnerList extends React.Component {
                 dataIndex: 'stock',
                 key: 'stock',
                 render: text => {
-                    return <span style={{color: 'red'}}>{text}</span>
+                    return <span style={{fontWeight:600, color: '#666600'}}>{text}</span>
                 }
             }, {
                 title: '零售价',
                 dataIndex: 'retailPrice',
                 key: 'retailPrice',
+                // render: text => {
+                //     return <span style={{color: 'red'}}>{text}</span>
+                // }
             }, {
                 title: '批发价',
                 dataIndex: 'wholesalePrice',
                 key: 'wholesalePrice',
+                render: text => {
+                    return <span style={{color: '#990000'}}>{text}</span>
+                }
             }, {
-                title: '进货价',
-                dataIndex: 'purchasePrice',
-                key: 'purchasePrice',
-            }, {
+                title: '起批数量(含)',
+                dataIndex: 'wholesaleThreshold',
+                key: 'wholesaleThreshold',
+                render: text => {
+                    return <span style={{color: '#990000'}}>{text}</span>
+                }
+            },
+            // {
+            //     title: '进货价',
+            //     dataIndex: 'purchasePrice',
+            //     key: 'purchasePrice',
+            // },
+            {
                 title: '是否展示',
                 dataIndex: 'display',
                 key: 'display',

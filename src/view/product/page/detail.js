@@ -216,6 +216,12 @@ class SkuList extends React.Component {
                         initValue: '',
                         required: true,
                     }, {
+                        fieldName: 'wholesaleThreshold',
+                        labelName: '起批数量（含）',
+                        formItemType: FORM_ITEM_TYPE.NUMBER,
+                        initValue: '',
+                        required: true,
+                    }, {
                         fieldName: 'purchasePrice',
                         labelName: '进货价',
                         formItemType: FORM_ITEM_TYPE.NUMBER,
@@ -341,6 +347,12 @@ class SkuList extends React.Component {
                 }, {
                     fieldName: 'wholesalePrice',
                     labelName: '批发价',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'wholesaleThreshold',
+                    labelName: '起批数量（含）',
                     formItemType: FORM_ITEM_TYPE.NUMBER,
                     initValue: '',
                     required: true,

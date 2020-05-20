@@ -3,6 +3,32 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+
+    getOrder(params) {
+        return get({
+            url: constant.host + '/order/b/v1/find',
+            params: params
+        })
+    },
+    updateOrder(params) {
+        return post({
+            url: constant.host + '/order/b/v1/modify',
+            data: params
+        })
+    },
+    getOrderList(params) {
+        return get({
+            url: constant.host + '/order/b/v1/list',
+            params: params
+        })
+    },
+    getOrderDetailListByOrderId(params) {
+        return get({
+            url: constant.host + '/order-detail/b/v1/list-by-order-id',
+            params: params
+        })
+    },
+
     getSku(params) {
         return get({
             url: constant.host + '/sku/b/v1/find',
