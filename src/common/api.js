@@ -3,6 +3,32 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+    getSku(params) {
+        return get({
+            url: constant.host + '/sku/b/v1/find',
+            params: params
+        })
+    },
+    addSku(params) {
+        return post({
+            url: constant.host + '/sku/b/v1/add',
+            data: params
+        })
+    },
+    updateSku(params) {
+        return post({
+            url: constant.host + '/sku/b/v1/modify',
+            data: params
+        })
+    },
+    deleteSku(params) {
+        return post({
+            url: constant.host + '/sku/b/v1/del',
+            data: params
+        })
+    },
+
+
     getSupplierSelectors(params) {
         return get({
             url: constant.host + '/supplier/b/v1/supplier',

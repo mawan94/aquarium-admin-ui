@@ -28,7 +28,6 @@ export default class FormItemInput_Edit extends Component {
     }
 
     render() {
-
         let {fieldName, formItemType, handleFormItemChange, initValue} = this.props;
         return (
             formItemType === FORM_ITEM_TYPE.TEXT ?

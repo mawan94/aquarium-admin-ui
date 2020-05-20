@@ -21,8 +21,8 @@ export default class MyImg extends React.Component {
     };
 
     static defaultProps = {
-        width: '50px',
-        height: '50px',
+        width: '40px',
+        height: '40px',
         shape: 'SQUARE',
         alt: '',
     };
@@ -41,12 +41,14 @@ export default class MyImg extends React.Component {
         return (
             <span>
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                    <img alt='' style={{width: '100%', height: '100%'}}
+                    <img alt='' style={{width: '100%', height: '100%', objectFit: 'cover'}}
                          src={src ? (src.startsWith('http') ? src : constant.imgHost + src) : src}/>
                 </Modal>
                 <img onClick={this.handleClick} style={{
                     cursor: 'pointer',
-                    width, height,
+                    objectFit: 'cover',
+                    width: width,
+                    height: height,
                     borderRadius: shape === 'CIRCLE' ? '100%' : '6%'
                 }}
                      src={src ? (src.startsWith('http') ? src : constant.imgHost + src) : src}

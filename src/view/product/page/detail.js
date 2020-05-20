@@ -22,73 +22,12 @@ const formItemLayout = {
         sm: {span: 14},
     }
 };
-// 保存按钮 css 样式
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 14,
-            offset: 6,
-        },
-    }
-};
 
 class Detail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // skuInfoList: [],
-            skuFormItemList: [{
-                key: util.guid(), value: [
-                    {
-                        fieldName: 'skuName',
-                        labelName: '规格名称',
-                        formItemType: FORM_ITEM_TYPE.TEXT,
-                        initValue: '',
-                        required: true,
-                    }, {
-                        fieldName: 'stock',
-                        labelName: '库存',
-                        formItemType: FORM_ITEM_TYPE.NUMBER,
-                        initValue: '',
-                        required: true,
-                    }, {
-                        fieldName: 'display',
-                        labelName: '是否展示',
-                        formItemType: FORM_ITEM_TYPE.SWITCH,
-                        initValue: 1,
-                        required: true,
-                    }, {
-                        fieldName: 'images',
-                        labelName: '商品封面图',
-                        initValue: [],
-                        formItemType: FORM_ITEM_TYPE.IMAGE,
-                        uploadMaxCount: 1,
-                        required: false
-                    }, {
-                        fieldName: 'retailPrice',
-                        labelName: '零售价',
-                        formItemType: FORM_ITEM_TYPE.NUMBER,
-                        initValue: '',
-                        required: true,
-                    }, {
-                        fieldName: 'wholesalePrice',
-                        labelName: '批发价',
-                        formItemType: FORM_ITEM_TYPE.NUMBER,
-                        initValue: '',
-                        required: true,
-                    }, {
-                        fieldName: 'purchasePrice',
-                        labelName: '进货价',
-                        formItemType: FORM_ITEM_TYPE.NUMBER,
-                        initValue: '',
-                        required: true,
-                    },
-                ]
-            }],
+            child: undefined,
             formItemList: [
                 {
                     fieldName: 'categoryId',
@@ -148,6 +87,7 @@ class Detail extends React.Component {
         }
     };
 
+
     componentDidMount() {
         let {formItemList} = this.state;
         if (this.props.match.params.id) {
@@ -158,120 +98,136 @@ class Detail extends React.Component {
                         formItemList[index].initValue = res.data[key]
                         console.log(`key: ${key}  initVal: ${res.data[key]}`)
                     })
-                    this.handleCategorySelectors(formItemList)
-                    this.handleSupplierSelectors(formItemList)
+
+                    this.handleLoadSelectors(formItemList)
                 }
             })
         } else {
-            this.handleCategorySelectors(formItemList)
-            this.handleSupplierSelectors(formItemList)
+            this.handleLoadSelectors(formItemList)
         }
     }
 
-    handleCategorySelectors = (formItemList) => {
+    handleLoadSelectors = (formItemList) => {
         api.getCategorySelectors().then(res => {
-            this.setState({
-                formItemList: util.initSelectDefaultValues('categoryId', res.data, formItemList)
+            formItemList = util.initSelectDefaultValues('categoryId', res.data, formItemList)
+            api.getSupplierSelectors().then(res => {
+                this.setState({
+                    formItemList: util.initSelectDefaultValues('supplierId', res.data, formItemList)
+                })
             })
         })
     }
 
-    handleSupplierSelectors = (formItemList) => {
-        api.getSupplierSelectors().then(res => {
-            this.setState({
-                formItemList: util.initSelectDefaultValues('supplierId', res.data, formItemList)
-            })
-        })
+    onRef = (ref) => {
+        this.setState({child: ref})
     }
 
-    handleAppendSkuInfo = () => {
-        let {skuFormItemList} = this.state
-        skuFormItemList.push({
-            key: util.guid(), value: [
-                {
-                    fieldName: 'skuName',
-                    labelName: '规格名称',
-                    formItemType: FORM_ITEM_TYPE.TEXT,
-                    initValue: '',
-                    required: true,
-                }, {
-                    fieldName: 'stock',
-                    labelName: '库存',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
-                    initValue: '',
-                    required: true,
-                }, {
-                    fieldName: 'display',
-                    labelName: '是否展示',
-                    formItemType: FORM_ITEM_TYPE.SWITCH,
-                    initValue: 1,
-                    required: true,
-                }, {
-                    fieldName: 'images',
-                    labelName: '商品封面图',
-                    initValue: [],
-                    formItemType: FORM_ITEM_TYPE.IMAGE,
-                    uploadMaxCount: 1,
-                    required: false
-                }, {
-                    fieldName: 'retailPrice',
-                    labelName: '零售价',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
-                    initValue: '',
-                    required: true,
-                }, {
-                    fieldName: 'wholesalePrice',
-                    labelName: '批发价',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
-                    initValue: '',
-                    required: true,
-                }, {
-                    fieldName: 'purchasePrice',
-                    labelName: '进货价',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
-                    initValue: '',
-                    required: true,
-                },
-            ]
-        })
-        this.setState({skuFormItemList})
-        message.info('操作成功');
-    }
-
-    handleRemoveSkuInfo = (key) => {
-        let {skuFormItemList} = this.state
-        if (skuFormItemList.length === 1) {
-            message.info('至少有一个规格');
-            return;
-        }
-        let newSkuFormItemList = skuFormItemList.filter(item => {
-            return item.key !== key
-        })
-
-        this.setState({
-            skuFormItemList: newSkuFormItemList,
-        })
-        message.info('操作成功');
-    }
-
-    validateSkuListForm = () => {
-        let flag = true
-        let {skuFormItemList} = this.state;
+    //表单提交
+    handleSubmitForm = (params) => {
+        let {child} = this.state
+        let {skuFormItemList} = child.state
+        if (!child.validateSkuListForm()) return;
+        params.productId = this.props.match.params.id;
+        // 组装请求参数
+        let productBO = {};
+        let skuInfoList = []
         skuFormItemList.map(item => {
-            item.value.map(innerItem => {
-                let required = innerItem.required;
-                let value = innerItem.initValue;
-                if (required) {
-                    if (value === null || value === '' || value === undefined || value.length < 1) {
-                        message.error('【' + innerItem.labelName + '】不能为空！');
-                        flag = false;
-                    }
-                }
+            let skuInfo = {}
+            item.value.map(inner => {
+                skuInfo[inner.fieldName] = inner.initValue
             })
+            skuInfo.productId = params.productId
+            skuInfoList.push(skuInfo)
         })
-        return flag
+        productBO.productEditBO = params
+        productBO.skuEditBOS = skuInfoList
+
+        if (params.productId) {
+            api.updateProduct(productBO).then(res => {
+                this.props.history.goBack()
+            })
+        } else {
+            api.addProduct(productBO).then(res => {
+                this.props.history.goBack()
+            })
+        }
     }
 
+    render() {
+        let {formItemList} = this.state
+        let id = this.props.match.params.id
+        return (
+            <div>
+                {/* 新增时候显示 SKU */}
+                {id ? '' : <SkuList onRef={this.onRef}/>}
+
+                {/* product */}
+                <Detail_Form cardName={'商品信息'}
+                             formItemList={formItemList}
+                             handleSubmitForm={this.handleSubmitForm}/>
+            </div>
+        )
+    }
+}
+
+class SkuList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            skuFormItemList: [{
+                key: util.guid(), value: [
+                    {
+                        fieldName: 'skuName',
+                        labelName: '规格名称',
+                        formItemType: FORM_ITEM_TYPE.TEXT,
+                        initValue: '',
+                        required: true,
+                    }, {
+                        fieldName: 'stock',
+                        labelName: '库存',
+                        formItemType: FORM_ITEM_TYPE.NUMBER,
+                        initValue: '',
+                        required: true,
+                    }, {
+                        fieldName: 'display',
+                        labelName: '是否展示',
+                        formItemType: FORM_ITEM_TYPE.SWITCH,
+                        initValue: 1,
+                        required: true,
+                    }, {
+                        fieldName: 'images',
+                        labelName: '商品封面图',
+                        initValue: [],
+                        formItemType: FORM_ITEM_TYPE.IMAGE,
+                        uploadMaxCount: 1,
+                        required: false
+                    }, {
+                        fieldName: 'retailPrice',
+                        labelName: '零售价',
+                        formItemType: FORM_ITEM_TYPE.NUMBER,
+                        initValue: '',
+                        required: true,
+                    }, {
+                        fieldName: 'wholesalePrice',
+                        labelName: '批发价',
+                        formItemType: FORM_ITEM_TYPE.NUMBER,
+                        initValue: '',
+                        required: true,
+                    }, {
+                        fieldName: 'purchasePrice',
+                        labelName: '进货价',
+                        formItemType: FORM_ITEM_TYPE.NUMBER,
+                        initValue: '',
+                        required: true,
+                    },
+                ]
+            }]
+        }
+    }
+
+    componentDidMount() {
+        this.props.onRef(this)
+    }
 
     switchItem(item, key) {
         const type = item.formItemType;
@@ -327,7 +283,7 @@ class Detail extends React.Component {
 
     // 设置默认值
     setDefaultValue = (entry) => {
-        this.setState({...entry})
+        // this.setState({...entry})
     };
 
     // 监听表单元素变化
@@ -344,42 +300,98 @@ class Detail extends React.Component {
         })
     };
 
-    //表单提交
-    handleSubmitForm = (params) => {
-        if (!this.validateSkuListForm()) return;
-        params.productId = this.props.match.params.id;
+    // 增加子集
+    handleAppendSkuInfo = () => {
         let {skuFormItemList} = this.state
-        // 组装请求参数
-        let productBO = {};
-        let skuInfoList = []
-        skuFormItemList.map(item => {
-            let skuInfo = {}
-            item.value.map(inner => {
-                skuInfo[inner.fieldName] = inner.initValue
-            })
-            skuInfo.productId = params.productId
-            skuInfoList.push(skuInfo)
+        skuFormItemList.push({
+            key: util.guid(), value: [
+                {
+                    fieldName: 'skuName',
+                    labelName: '规格名称',
+                    formItemType: FORM_ITEM_TYPE.TEXT,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'stock',
+                    labelName: '库存',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'display',
+                    labelName: '是否展示',
+                    formItemType: FORM_ITEM_TYPE.SWITCH,
+                    initValue: 1,
+                    required: true,
+                }, {
+                    fieldName: 'images',
+                    labelName: '商品封面图',
+                    initValue: [],
+                    formItemType: FORM_ITEM_TYPE.IMAGE,
+                    uploadMaxCount: 1,
+                    required: false
+                }, {
+                    fieldName: 'retailPrice',
+                    labelName: '零售价',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'wholesalePrice',
+                    labelName: '批发价',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'purchasePrice',
+                    labelName: '进货价',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                },
+            ]
         })
-        productBO.productEditBO = params
-        productBO.skuEditBO = skuInfoList
+        this.setState({skuFormItemList})
+        message.info('操作成功');
+        console.log(this.state)
+    }
 
-        console.log(productBO)
-
-        return
-        if (params.productId) {
-            api.updateProduct(params).then(res => {
-                this.props.history.goBack()
-            })
-        } else {
-            api.addProduct(params).then(res => {
-                this.props.history.goBack()
-            })
+    // 移除子集
+    handleRemoveSkuInfo = (key) => {
+        let {skuFormItemList} = this.state
+        if (skuFormItemList.length === 1) {
+            message.info('至少有一个规格');
+            return;
         }
+        this.setState({
+            skuFormItemList: skuFormItemList.filter(item => item.key !== key)
+        })
+        message.info('操作成功');
+    }
+
+    // 表单校验
+    validateSkuListForm = () => {
+        let flag = true;
+        let {skuFormItemList} = this.state;
+        skuFormItemList.map(item => {
+            item.value.map(innerItem => {
+                let required = innerItem.required;
+                let value = innerItem.initValue;
+                if (required) {
+                    if (value === null || value === '' || value === undefined || value.length < 1) {
+                        message.error('【' + innerItem.labelName + '】不能为空！');
+                        flag = false;
+                    }
+                }
+            })
+        })
+        return flag
     }
 
     render() {
+        let {skuFormItemList} = this.state
         return (
-            <div>
+            <>
                 {/* sku */}
                 <Card
                     title="规格信息"
@@ -391,7 +403,7 @@ class Detail extends React.Component {
                     <div style={{height: '100%', margin: '30px'}}>
                         <Form>
                             {
-                                this.state.skuFormItemList.map((item, index) => {
+                                skuFormItemList.map((item, index) => {
                                     let DOM = [];
                                     item.value.map((innerItem, innerIndex) => {
                                         DOM.push(<FormItem
@@ -404,7 +416,7 @@ class Detail extends React.Component {
                                             {this.switchItem(innerItem, item.key)}
                                         </FormItem>)
                                         if (innerIndex === item.value.length - 1) {
-                                            DOM.push(<Divider plain>
+                                            DOM.push(<Divider>
                                                 <Popconfirm title="确定要移除该规格吗？" okText="Yes" cancelText="No" onConfirm={
                                                     () => {
                                                         this.handleRemoveSkuInfo(item.key)
@@ -421,15 +433,13 @@ class Detail extends React.Component {
                         </Form>
                     </div>
                 </Card>
-
-
-                {/* product  */}
-                <Detail_Form cardName={'商品信息'}
-                             formItemList={this.state.formItemList}
-                             handleSubmitForm={this.handleSubmitForm}/>
-            </div>
+            </>
         )
     }
+
+
 }
 
 export default withRouter(Form.create()(Detail))
+
+

@@ -3,7 +3,6 @@ import {Button, Modal, Table} from 'antd';
 
 import MyTable from '../../../component/MyTable'
 import api from '../../../common/api'
-import MyImg from "../../../component/MyImg";
 
 const confirm = Modal.confirm;
 
@@ -25,7 +24,7 @@ export default class Index extends React.Component {
 
 
     handleSearch = (pageIndex, pageSize) => {
-        api.getBannerList({pageIndex, pageSize}).then(res => {
+        api.getCategoryList({pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
             this.setState({total, data: records})
         })
@@ -34,22 +33,34 @@ export default class Index extends React.Component {
     render() {
         let _this = this;
         let columns = [{
-            title: '轮播图编号',
-            dataIndex: 'bannerId',
-            key: 'bannerId',
+            title: '分类编号',
+            dataIndex: 'categoryId',
+            key: 'categoryId',
         }, {
-            title: '封面图片',
-            dataIndex: 'filePath',
-            key: 'filePath',
-            render: text => <MyImg width={240} src={text}/>
-        }, {
-            title: '跳转路由',
-            dataIndex: 'redirectRouter',
-            key: 'redirectRouter',
+            title: '分类名称',
+            dataIndex: 'categoryName',
+            key: 'categoryName',
         }, {
             title: '展示优先级',
             dataIndex: 'weight',
             key: 'weight',
+        }, {
+            title: '是否展示',
+            dataIndex: 'display',
+            key: 'display',
+            render: (text) => {
+                if (text === 1) {
+                    return '展示'
+                } else if (text === 2) {
+                    return '隐藏'
+                } else {
+                    return 'UNKNOW'
+                }
+            }
+        }, {
+            title: '父级分类编号',
+            dataIndex: 'parentId',
+            key: 'parentId'
         },
             {
                 title: '操作', dataIndex: '', key: 'x', render: (record) => {
@@ -57,7 +68,7 @@ export default class Index extends React.Component {
                         <div>
                             <div>
                                 <Button type="dashed" onClick={() => {
-                                    this.props.history.push('/banner/edit/' + record.bannerId)
+                                    this.props.history.push('/category/edit/' + record.categoryId)
                                 }}>编辑</Button>
                             </div>
 
@@ -70,7 +81,7 @@ export default class Index extends React.Component {
                                         okType: 'danger',
                                         cancelText: 'No',
                                         onOk() {
-                                            api.deleteBanner({bannerId: record.bannerId}).then(res => {
+                                            api.deleteCategory({productCategoryId: record.categoryId}).then(res => {
                                                 _this.handleSearch(_this.state.pageIndex, _this.state.pageSize)
                                             })
                                         },
@@ -90,9 +101,9 @@ export default class Index extends React.Component {
                 {/* 列表数据 */}
                 <MyTable
                     buttonClick={() => {
-                        this.props.history.push('/banner/add')
+                        this.props.history.push('/category/add')
                     }}
-                    rowKey={record => record.bannerId}
+                    rowKey={record => record.categoryId}
                     columns={columns}
                     dataSource={this.state.data}
                     pageIndex={this.state.pageIndex}

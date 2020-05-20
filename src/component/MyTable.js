@@ -51,7 +51,7 @@ export default class MyTable extends React.Component {
         };
 
         return (
-            <div style={{backgroundColor: '#fff'}}>
+            <div style={{backgroundColor: '#fff', margin: '25px'}}>
                 <Card
                     title=""
                     extra={<Button type='primary' onClick={this.props.buttonClick}>新增</Button>}

@@ -84,14 +84,13 @@ class Detail_Form extends React.Component {
 
     handleSubmit = () => {
         let validateFlag = true;
-        console.error(this.state)
         this.props.formItemList.map((item) => {
             if (item.required) {
                 let k = item.fieldName;
                 if (this.state[k] === null || this.state[k] === '' || this.state[k] === undefined || this.state[k].length < 1) {
                     message.error('【' + item.labelName + '】不能为空！');
                     validateFlag = false;
-                    console.log(`key: ${k}  value: ${this.state[k]}`)
+                    // console.log(`key: ${k}  value: ${this.state[k]}`)
                 }
             }
         })
@@ -186,8 +185,8 @@ class Detail_Form extends React.Component {
     }
 
     render() {
-        let {cardName} = this.props;
         let {formItemList} = this.state;
+        let {cardName} = this.props;
         return (
             <Card
                 title={cardName ? cardName : '表单信息'}
