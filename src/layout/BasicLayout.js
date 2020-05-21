@@ -1,5 +1,5 @@
 import React from 'react'
-import {Breadcrumb, Icon, Layout, Menu, notification} from 'antd';
+import {Breadcrumb, Icon, Layout, Menu} from 'antd';
 import {Switch, NavLink} from 'react-router-dom'
 import menuList from '../common/menu'
 import entry from '../common/entry';
@@ -23,36 +23,8 @@ export default class BasicLayout extends React.Component {
         let token = storage.get('token', localStorage);
         if (!token) {
             this.props.history.push('/login');
-            return
         }
-        // CONNECTING：值为0，表示正在连接。
-        // OPEN：值为1，表示连接成功，可以通信了。
-        // CLOSING：值为2，表示连接正在关闭。
-        // CLOSED：值为3，表示连接已经关闭，或者打开连接失败。
-        let {ws} = window;
-        ws.onopen = () => {
-            console.info('webSocket通道建立成功！！！');
-        };
-        ws.onmessage = (message) => {
-            this.parseMsgFromServer(message)
-        };
     }
-
-    // 解析处理服务端推来的消息 TODO 抽取代码
-    parseMsgFromServer = (message) => {
-        if (message.data) {
-            let packet = JSON.parse(message.data);
-            // if (packet.cmd == 2) {
-            console.error(packet)
-            notification.open({
-                message: packet.success ? '发送成功' : '发送失败',
-                description: packet.msg,
-                duration: 0,
-            });
-            // }
-        }
-    };
-
 
     onCollapse = collapsed => {
         this.setState({collapsed});
@@ -83,8 +55,8 @@ export default class BasicLayout extends React.Component {
                                         <SubMenu title={
                                             <span style={styles.subMenuText}>{item.label}</span>
                                         }
-                                            // key={index}>
-                                                 key={item.key}>
+                                                 // key={item.key}>
+                                                 key={index}>
                                             {
                                                 item.child.map((innerItem, innerIndex) =>
                                                     <Menu.Item style={styles.menuItem}
@@ -134,11 +106,11 @@ export default class BasicLayout extends React.Component {
 const styles = {
     layout: {minHeight: '100vh'},
     layoutSider: {borderRight: "3px solid #F7F7F7"},
-    titleWrap: {color: '#fff', fontSize: 27, fontWeight: 800, padding: '18px'},
+    titleWrap: {color: '#fff', fontSize: 25, fontWeight: 800, padding: '18px'},
     titleImg: {width: '100%'},
     titleText: {padding: '0 16px', marginBottom: '20px', color: '#fff', fontSize: 22, fontWeight: 600},
-    subMenuText: {color: '#fff', fontSize: 18, fontWeight: 500, float: 'left'},
-    menuItem: {margin: '17px 0', fontSize: 18, fontWeight: 500},
+    subMenuText: {color: '#fff', fontSize: 17, float: 'left'},
+    menuItem: {margin: '17px 0', fontSize: 17},
     header: {background: '#fff', padding: 0},
     content: {margin: '0 16px'},
     breadcrumb: {margin: '16px 0'},

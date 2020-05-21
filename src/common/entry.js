@@ -65,6 +65,10 @@ const list = [
     {
         key: 'sku',
         router: require('../view/sku/router/sku').default
+    },
+    {
+        key: 'order',
+        router: require('../view/order/router/order').default
     }
 ];
 export default {list: list};

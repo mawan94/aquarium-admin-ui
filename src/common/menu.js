@@ -31,6 +31,7 @@ const menuList = [
     {key: '1211',label: 'sssupplierer', navLink: '/supplier/index', icon: ''},
     {key: '14211',label: 'bbbbanner', navLink: '/banner/index', icon: ''},
     {key: '142111',label: 'product', navLink: '/product/index', icon: ''},
+    {key: '14111',label: 'order', navLink: '/order/index', icon: ''},
 
 
     //=============================================================================

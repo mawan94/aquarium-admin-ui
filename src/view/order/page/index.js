@@ -1,8 +1,10 @@
 import React from 'react'
-import {Button, Modal, Table} from 'antd';
+import {Button, Modal, Table, Tag} from 'antd';
 
 import MyTable from '../../../component/MyTable'
 import api from '../../../common/api'
+import MyImg from "../../../component/MyImg";
+import constant from "../../../common/constant";
 
 const confirm = Modal.confirm;
 
@@ -31,7 +33,6 @@ export default class Index extends React.Component {
     };
 
     render() {
-        let _this = this;
         let columns = [{
             title: '订单编号',
             dataIndex: 'orderId',
@@ -84,17 +85,93 @@ export default class Index extends React.Component {
                 {/* 列表数据 */}
                 <MyTable
                     buttonClick={() => {
-                        // this.props.history.push('/supplier/add')
                     }}
-                    rowKey={record => record.supplierId}
+                    rowKey={record => record.orderId}
                     columns={columns}
                     dataSource={this.state.data}
                     pageIndex={this.state.pageIndex}
                     pageSize={this.state.pageSize}
                     total={this.state.total}
                     handleLoadPage={this.handleSearch}
+                    expandedRowRender={(record) => <InnerList that={this}
+                                                              productId={record.orderId}/>}  //级联列表效果切换 注释取消
                 />
             </div>
         )
+    }
+}
+
+
+class InnerList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            list: []
+        }
+    }
+
+    componentDidMount() {
+        this.handleLoadInnerList(this.props.orderId)
+    }
+
+    handleLoadInnerList = (productId) => {
+        api.getOrderDetailListByOrderId({productId}).then(res => {
+            if (res.data) {
+                res.data.map((item, index) => {
+                    item.key = index
+                });
+            }
+            this.setState({
+                list: res.data
+            });
+        })
+    }
+
+    render() {
+        const columns = [
+            // {
+            //     title: '商品编号',
+            //     dataIndex: 'productId',
+            //     key: 'productId',
+            // },
+            {
+                title: '商品名称',
+                dataIndex: 'productName',
+                key: 'productName',
+
+            }, {
+                title: '规格型号',
+                dataIndex: 'skuName',
+                key: 'skuName',
+            }, {
+                title: '商品图片',
+                dataIndex: 'productImg',
+                key: 'productImg'
+            }, {
+                title: '买入价格类别',
+                dataIndex: 'priceType',
+                key: 'priceType'
+            }, {
+                title: '单价',
+                dataIndex: 'price',
+                key: 'price'
+            },
+            {
+                title: '购买数量',
+                dataIndex: 'buyNum',
+                key: 'buyNum'
+            },
+            {
+                title: '小计',
+                dataIndex: 'subtotal',
+                key: 'subtotal',
+            }
+        ];
+        return <Table
+            rowKey={record => record.orderDetailId}
+            columns={columns}
+            dataSource={this.state.list}
+            pagination={false}
+        />
     }
 }
