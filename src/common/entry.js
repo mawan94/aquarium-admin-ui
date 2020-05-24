@@ -69,6 +69,10 @@ const list = [
     {
         key: 'order',
         router: require('../view/order/router/order').default
+    },
+    {
+        key: 'coupon',
+        router: require('../view/coupon/router/coupon').default
     }
 ];
 export default {list: list};

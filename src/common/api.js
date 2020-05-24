@@ -4,6 +4,37 @@ import constant from '../common/constant'
 
 const server = {
 
+    getCouponList(params) {
+        return get({
+            url: constant.host + '/coupon/b/v1/list',
+            params: params
+        })
+    },
+    getCoupon(params) {
+        return get({
+            url: constant.host + '/coupon/b/v1/find',
+            params: params
+        })
+    },
+    addCoupon(params) {
+        return post({
+            url: constant.host + '/coupon/b/v1/add',
+            data: params
+        })
+    },
+    updateCoupon(params) {
+        return post({
+            url: constant.host + '/coupon/b/v1/modify',
+            data: params
+        })
+    },
+    deleteCoupon(params) {
+        return post({
+            url: constant.host + '/coupon/b/v1/del',
+            data: params
+        })
+    },
+
     getOrder(params) {
         return get({
             url: constant.host + '/order/b/v1/find',
