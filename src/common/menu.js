@@ -33,6 +33,10 @@ const menuList = [
     {key: '142111',label: 'product', navLink: '/product/index', icon: ''},
     {key: '14111',label: 'order', navLink: '/order/index', icon: ''},
     {key: '14111',label: 'coupon', navLink: '/coupon/index', icon: ''},
+    {key: '3321',label: 'recharge', navLink: '/recharge/index', icon: ''},
+    {key: '33221',label: 'delivery', navLink: '/delivery/index', icon: ''},
+    {key: '3322421',label: 'menu', navLink: '/menu/index', icon: ''},
+    {key: '772421',label: 'role-menu', navLink: '/role-menu/index', icon: ''},
 
 
     //=============================================================================

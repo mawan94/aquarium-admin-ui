@@ -3,6 +3,149 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+    changeRoleMenu(params) {
+        return post({
+            url: constant.host + '/role-menu/b/v1/change',
+            data: params
+        })
+    },
+    getRoleList(params) {
+        return get({
+            url: constant.host + '/role/b/v1/list',
+            params: params
+        })
+    },
+    getRole(params) {
+        return get({
+            url: constant.host + '/role/b/v1/find',
+            params: params
+        })
+    },
+    addRole(params) {
+        return post({
+            url: constant.host + '/role/b/v1/add',
+            data: params
+        })
+    },
+    updateRole(params) {
+        return post({
+            url: constant.host + '/role/b/v1/modify',
+            data: params
+        })
+    },
+    deleteRole(params) {
+        return post({
+            url: constant.host + '/role/b/v1/del',
+            data: params
+        })
+    },
+
+
+    getMenuSelectors(params) {
+        return get({
+            url: constant.host + '/menu/b/v1/selectors',
+            params: params
+        })
+    },
+    getMenuRootList(params) {
+        return get({
+            url: constant.host + '/menu/b/v1/root',
+            params: params
+        })
+    },
+    getMenuChildList(params) {
+        return get({
+            url: constant.host + '/menu/b/v1/child',
+            params: params
+        })
+    },
+    getMenu(params) {
+        return get({
+            url: constant.host + '/menu/b/v1/find',
+            params: params
+        })
+    },
+    addMenu(params) {
+        return post({
+            url: constant.host + '/menu/b/v1/add',
+            data: params
+        })
+    },
+    updateMenu(params) {
+        return post({
+            url: constant.host + '/menu/b/v1/modify',
+            data: params
+        })
+    },
+    deleteMenu(params) {
+        return post({
+            url: constant.host + '/menu/b/v1/del',
+            data: params
+        })
+    },
+
+
+    getDeliveryList(params) {
+        return get({
+            url: constant.host + '/delivery/b/v1/list',
+            params: params
+        })
+    },
+    getDelivery(params) {
+        return get({
+            url: constant.host + '/delivery/b/v1/find',
+            params: params
+        })
+    },
+    addDelivery(params) {
+        return post({
+            url: constant.host + '/delivery/b/v1/add',
+            data: params
+        })
+    },
+    updateDelivery(params) {
+        return post({
+            url: constant.host + '/delivery/b/v1/modify',
+            data: params
+        })
+    },
+    deleteDelivery(params) {
+        return post({
+            url: constant.host + '/delivery/b/v1/del',
+            data: params
+        })
+    },
+
+    getRechargeRuleList(params) {
+        return get({
+            url: constant.host + '/recharge-rule/b/v1/list',
+            params: params
+        })
+    },
+    getRechargeRule(params) {
+        return get({
+            url: constant.host + '/recharge-rule/b/v1/find',
+            params: params
+        })
+    },
+    addRechargeRule(params) {
+        return post({
+            url: constant.host + '/recharge-rule/b/v1/add',
+            data: params
+        })
+    },
+    updateRechargeRule(params) {
+        return post({
+            url: constant.host + '/recharge-rule/b/v1/modify',
+            data: params
+        })
+    },
+    deleteRechargeRule(params) {
+        return post({
+            url: constant.host + '/recharge-rule/b/v1/del',
+            data: params
+        })
+    },
 
     getCouponList(params) {
         return get({
@@ -32,6 +175,12 @@ const server = {
         return post({
             url: constant.host + '/coupon/b/v1/del',
             data: params
+        })
+    },
+    getCouponSelectors(params) {
+        return get({
+            url: constant.host + '/coupon/b/v1/selectors',
+            params: params
         })
     },
 

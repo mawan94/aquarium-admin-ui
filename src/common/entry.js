@@ -73,6 +73,22 @@ const list = [
     {
         key: 'coupon',
         router: require('../view/coupon/router/coupon').default
+    },
+    {
+        key: 'recharge',
+        router: require('../view/recharge/router/recharge').default
+    },
+    {
+        key: 'delivery',
+        router: require('../view/delivery/router/delivery').default
+    },
+    {
+        key: 'menu',
+        router: require('../view/menu/router/menu').default
+    },
+    {
+        key: 'roleMenu',
+        router: require('../view/role-menu/router/role-menu').default
     }
 ];
 export default {list: list};
