@@ -3,6 +3,7 @@ import {Button, Modal, Table} from 'antd';
 
 import MyTable from '../../../component/MyTable'
 import api from '../../../common/api'
+import text from "react-tmap/src/canvas/draw/text";
 
 const confirm = Modal.confirm;
 
@@ -32,21 +33,35 @@ export default class Index extends React.Component {
     render() {
         let _this = this;
         let columns = [{
-            title: '编号',
-            dataIndex: 'deliveryId',
-            key: 'deliveryId',
-        }, {
-            title: '起送价(元)',
+            title: '起送价',
             dataIndex: 'startingPrice',
             key: 'startingPrice',
+            render: (text) =>  text + '元'
         }, {
-            title: '包装费(元)',
+            title: '包装费',
             dataIndex: 'packagingFee',
             key: 'packagingFee',
+            render: (text) =>  text + '元'
         }, {
-            title: '服务费率(%)',
+            title: '服务费率',
             dataIndex: 'serviceFeeRatio',
             key: 'serviceFeeRatio',
+            render: (text) =>  text + '%'
+        }, {
+            title: '基础运费',
+            dataIndex: 'baseDeliveryFee',
+            key: 'baseDeliveryFee',
+            render: (text) =>  text + '元'
+        }, {
+            title: '封顶运费',
+            dataIndex: 'maxDeliveryFee',
+            key: 'maxDeliveryFee',
+            render: (text) =>  text + '元'
+        }, {
+            title: '收费规则',
+            dataIndex: 'rule',
+            key: 'rule',
+            render: (text, record) => <span>每{record.stepUnit}KM，加收费用{record.stepFee}元。</span>
         },
             {
                 title: '操作', dataIndex: '', key: 'x', render: (record) => {
