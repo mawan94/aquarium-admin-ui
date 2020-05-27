@@ -29,11 +29,11 @@ export default class Detail extends React.Component {
                     required: true,
                 }, {
                     fieldName: 'images',
-                    labelName: '封面图',
+                    labelName: '商品封面图',
                     initValue: [],
                     formItemType: FORM_ITEM_TYPE.IMAGE,
                     uploadMaxCount: 1,
-                    required: false
+                    required: true
                 }, {
                     fieldName: 'retailPrice',
                     labelName: '零售价',
@@ -52,13 +52,7 @@ export default class Detail extends React.Component {
                     formItemType: FORM_ITEM_TYPE.NUMBER,
                     initValue: '',
                     required: true,
-                }, {
-                    fieldName: 'purchasePrice',
-                    labelName: '进货价',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
-                    initValue: '',
-                    required: true,
-                },
+                }
 
             ]
         }

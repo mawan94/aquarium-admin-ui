@@ -3,6 +3,7 @@ import {Button, Modal, Table} from 'antd';
 
 import MyTable from '../../../component/MyTable'
 import api from '../../../common/api'
+import MyImg from "../../../component/MyImg";
 
 const confirm = Modal.confirm;
 
@@ -40,6 +41,15 @@ export default class Index extends React.Component {
             title: '分类名称',
             dataIndex: 'categoryName',
             key: 'categoryName',
+        }, {
+            title: '分类描述',
+            dataIndex: 'description',
+            key: 'description',
+        }, {
+            title: '分类图片',
+            dataIndex: 'filePath',
+            key: 'filePath',
+            render: text => <MyImg src={text}/>
         }, {
             title: '展示优先级',
             dataIndex: 'weight',

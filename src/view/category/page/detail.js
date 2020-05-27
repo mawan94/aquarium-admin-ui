@@ -20,6 +20,19 @@ export default class Detail extends React.Component {
                     formItemType: FORM_ITEM_TYPE.TEXT,
                     initValue: '',
                     required: true,
+                },{
+                    fieldName: 'description',
+                    labelName: '分类描述',
+                    formItemType: FORM_ITEM_TYPE.TEXT,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'images',
+                    labelName: '分类图片',
+                    initValue: [],
+                    formItemType: FORM_ITEM_TYPE.IMAGE,
+                    uploadMaxCount: 1,
+                    required: true
                 }, {
                     fieldName: 'weight',
                     labelName: '展示优先级',
@@ -40,15 +53,6 @@ export default class Detail extends React.Component {
                     initValue: 1,
                     required: true,
                 }
-                // , {
-                //     fieldName: 'images',
-                //     labelName: '商品缩略图',
-                //     initValue: [],
-                //     formItemType: FORM_ITEM_TYPE.IMAGE,
-                //     uploadMaxCount: 1,
-                //     required: true
-                // }
-
             ]
         }
     };

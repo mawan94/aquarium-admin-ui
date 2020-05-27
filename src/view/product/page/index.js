@@ -245,11 +245,6 @@ class InnerList extends React.Component {
                     return <span style={{color: '#990000'}}>{text}</span>
                 }
             },
-            // {
-            //     title: '进货价',
-            //     dataIndex: 'purchasePrice',
-            //     key: 'purchasePrice',
-            // },
             {
                 title: '是否展示',
                 dataIndex: 'display',

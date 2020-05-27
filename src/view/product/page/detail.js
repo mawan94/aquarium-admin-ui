@@ -202,7 +202,7 @@ class SkuList extends React.Component {
                         initValue: [],
                         formItemType: FORM_ITEM_TYPE.IMAGE,
                         uploadMaxCount: 1,
-                        required: false
+                        required: true
                     }, {
                         fieldName: 'retailPrice',
                         labelName: '零售价',
@@ -221,13 +221,7 @@ class SkuList extends React.Component {
                         formItemType: FORM_ITEM_TYPE.NUMBER,
                         initValue: '',
                         required: true,
-                    }, {
-                        fieldName: 'purchasePrice',
-                        labelName: '进货价',
-                        formItemType: FORM_ITEM_TYPE.NUMBER,
-                        initValue: '',
-                        required: true,
-                    },
+                    }
                 ]
             }]
         }
@@ -337,7 +331,7 @@ class SkuList extends React.Component {
                     initValue: [],
                     formItemType: FORM_ITEM_TYPE.IMAGE,
                     uploadMaxCount: 1,
-                    required: false
+                    required: true
                 }, {
                     fieldName: 'retailPrice',
                     labelName: '零售价',
@@ -356,13 +350,7 @@ class SkuList extends React.Component {
                     formItemType: FORM_ITEM_TYPE.NUMBER,
                     initValue: '',
                     required: true,
-                }, {
-                    fieldName: 'purchasePrice',
-                    labelName: '进货价',
-                    formItemType: FORM_ITEM_TYPE.NUMBER,
-                    initValue: '',
-                    required: true,
-                },
+                }
             ]
         })
         this.setState({skuFormItemList})
