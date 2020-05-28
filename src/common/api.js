@@ -360,6 +360,12 @@ const server = {
             params: params
         })
     },
+    getChildCategoryList(params) {
+        return get({
+            url: constant.host + '/category/f/v1/child-list',
+            params: params
+        })
+    },
     getCategory(params) {
         return get({
             url: constant.host + '/category/b/v1/find',
