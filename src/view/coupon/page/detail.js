@@ -27,13 +27,6 @@ export default class Detail extends React.Component {
                     formItemType: FORM_ITEM_TYPE.TEXT,
                     initValue: '',
                     required: true,
-                }, , {
-                    fieldName: 'couponType',
-                    labelName: '类型（无门槛，满减）',
-                    formItemType: FORM_ITEM_TYPE.SELECT,
-                    initValue: null,
-                    optionList: [{label: '无门槛', value: 1}, {label: '满减', value: 2}],
-                    required: true
                 }, {
                     fieldName: 'priceLimit',
                     labelName: '门槛金额(元)',
@@ -42,7 +35,7 @@ export default class Detail extends React.Component {
                     required: true,
                 }, {
                     fieldName: 'useLimit',
-                    labelName: '使用限制（1无限制，2钱包支付）',
+                    labelName: '使用限制',
                     formItemType: FORM_ITEM_TYPE.SELECT,
                     initValue: null,
                     optionList: [{label: '无限制', value: 1}, {label: '余额支付', value: 2}],

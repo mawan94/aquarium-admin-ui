@@ -45,10 +45,6 @@ export default class Index extends React.Component {
             dataIndex: 'deduction',
             key: 'deduction',
         }, {
-            title: '优惠券类型',
-            dataIndex: 'couponType',
-            key: 'couponType',
-        }, {
             title: '门槛金额(元)',
             dataIndex: 'priceLimit',
             key: 'priceLimit',
