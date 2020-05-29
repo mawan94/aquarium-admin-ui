@@ -1,7 +1,8 @@
 import React from 'react'
 import {Breadcrumb, Icon, Layout, Menu} from 'antd';
 import {Switch, NavLink} from 'react-router-dom'
-import menuList from '../common/menu'
+// import menuList from '../common/menu'
+import api from '../common/api'
 import entry from '../common/entry';
 import storage from '../common/storage';
 import MyTopbar from '../component/MyTopbar'
@@ -16,6 +17,7 @@ export default class BasicLayout extends React.Component {
     }
 
     state = {
+        menuList: [],
         collapsed: false,
     };
 
@@ -23,7 +25,17 @@ export default class BasicLayout extends React.Component {
         let token = storage.get('token', localStorage);
         if (!token) {
             this.props.history.push('/login');
+        } else {
+            this.handleLoadMenu()
         }
+    }
+
+
+    handleLoadMenu = () => {
+        api.getAdminMenuList().then(res => {
+            this.setState({menuList: res.data})
+            // console.log(res)
+        })
     }
 
     onCollapse = collapsed => {
@@ -48,21 +60,54 @@ export default class BasicLayout extends React.Component {
                     </div>
 
                     <Menu theme="dark" mode="inline" defaultOpenKeys={['3', '8', '11']}>
+                        {/*{*/}
+                        {/*    menuList.map((item, index) => {*/}
+                        {/*        if (item.child && item.child.length) {*/}
+                        {/*            return (*/}
+                        {/*                <SubMenu title={*/}
+                        {/*                    <span style={styles.subMenuText}>{item.label}</span>*/}
+                        {/*                }*/}
+                        {/*                         // key={item.key}>*/}
+                        {/*                         key={index}>*/}
+                        {/*                    {*/}
+                        {/*                        item.child.map((innerItem, innerIndex) =>*/}
+                        {/*                            <Menu.Item style={styles.menuItem}*/}
+                        {/*                                       key={`${index}${innerIndex}`}>*/}
+                        {/*                                {innerItem.icon ? <Icon type={innerItem.icon}/> : ''}*/}
+                        {/*                                <NavLink to={innerItem.navLink}>{innerItem.label}</NavLink>*/}
+                        {/*                            </Menu.Item>*/}
+                        {/*                        )*/}
+                        {/*                    }*/}
+                        {/*                </SubMenu>*/}
+                        {/*            )*/}
+                        {/*        } else {*/}
+                        {/*            return (*/}
+                        {/*                <Menu.Item style={styles.menuItem}*/}
+                        {/*                           key={index}>*/}
+                        {/*                    {item.icon ? <Icon type={item.icon}/> : ''}*/}
+                        {/*                    <NavLink to={item.navLink}><span*/}
+                        {/*                        style={styles.subMenuText}>{item.label}</span></NavLink>*/}
+                        {/*                </Menu.Item>*/}
+                        {/*            )*/}
+                        {/*        }*/}
+                        {/*    })*/}
+                        {/*}*/}
+
                         {
-                            menuList.map((item, index) => {
-                                if (item.child && item.child.length) {
+                            this.state.menuList.map((item, index) => {
+                                if (item.menuItem && item.menuItem.length) {
                                     return (
                                         <SubMenu title={
-                                            <span style={styles.subMenuText}>{item.label}</span>
+                                            <span style={styles.subMenuText}>{item.subName}</span>
                                         }
-                                                 // key={item.key}>
                                                  key={index}>
                                             {
-                                                item.child.map((innerItem, innerIndex) =>
+                                                item.menuItem.map((innerItem, innerIndex) =>
                                                     <Menu.Item style={styles.menuItem}
                                                                key={`${index}${innerIndex}`}>
                                                         {innerItem.icon ? <Icon type={innerItem.icon}/> : ''}
-                                                        <NavLink to={innerItem.navLink}>{innerItem.label}</NavLink>
+                                                        <NavLink
+                                                            to={innerItem.link}>{innerItem.menuTagName}</NavLink>
                                                     </Menu.Item>
                                                 )
                                             }
@@ -73,8 +118,9 @@ export default class BasicLayout extends React.Component {
                                         <Menu.Item style={styles.menuItem}
                                                    key={index}>
                                             {item.icon ? <Icon type={item.icon}/> : ''}
-                                            <NavLink to={item.navLink}><span
-                                                style={styles.subMenuText}>{item.label}</span></NavLink>
+                                            {item.link? <NavLink to={item.link}><span
+                                                style={styles.subMenuText}>{item.subName}</span></NavLink> : <span
+                                                style={styles.subMenuText}>{item.subName}</span>}
                                         </Menu.Item>
                                     )
                                 }
@@ -83,9 +129,9 @@ export default class BasicLayout extends React.Component {
                     </Menu>
                 </Sider>
                 <Layout>
-                    <Header style={styles.header}>
-                        <MyTopbar ws={window.ws} userInfo={storage.get('userInfo')} history={this.props.history}/>
-                    </Header>
+                    {/*<Header style={styles.header}>*/}
+                    {/*    <MyTopbar ws={window.ws} userInfo={storage.get('userInfo')} history={this.props.history}/>*/}
+                    {/*</Header>*/}
                     <Content style={styles.content}>
                         <Breadcrumb style={styles.breadcrumb}>
                         </Breadcrumb>

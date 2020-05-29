@@ -390,6 +390,13 @@ const server = {
             data: params
         })
     },
+
+    getAdminMenuList(params) {
+        return get({
+            url: constant.host + '/role-menu/b/v1/list',
+            params: params
+        })
+    },
 //
     // http://adapter.hubject-hbs.cn/reconciliation
     // 获取cecPartner，初始化下拉框

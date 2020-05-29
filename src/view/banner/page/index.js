@@ -41,7 +41,7 @@ export default class Index extends React.Component {
             title: '封面图片',
             dataIndex: 'filePath',
             key: 'filePath',
-            render: text => <MyImg width={240} src={text}/>
+            render: text => <MyImg width={'240'} src={text}/>
         }, {
             title: '跳转路由',
             dataIndex: 'redirectRouter',
