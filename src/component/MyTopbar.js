@@ -24,10 +24,9 @@ export default class MyTopbar extends React.Component {
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item key="logout" onClick={() => {
-                    let {userInfo, ws} = this.props;
+                    let {userInfo} = this.props;
                     let packet = CMD.CLOSE_CONNECT_REQ;
                     packet.adminId = userInfo.adminId;
-                    ws.send(JSON.stringify(packet));//通知服务器关闭连接
                     // 移除storage存储内容
                     storage.remove('token');
                     storage.remove('userInfo');

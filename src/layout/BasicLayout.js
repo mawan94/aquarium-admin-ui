@@ -130,7 +130,7 @@ export default class BasicLayout extends React.Component {
                 </Sider>
                 <Layout>
                     {/*<Header style={styles.header}>*/}
-                    {/*    <MyTopbar ws={window.ws} userInfo={storage.get('userInfo')} history={this.props.history}/>*/}
+                        <MyTopbar userInfo={storage.get('userInfo')} history={this.props.history}/>
                     {/*</Header>*/}
                     <Content style={styles.content}>
                         <Breadcrumb style={styles.breadcrumb}>

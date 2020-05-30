@@ -38,7 +38,6 @@ class Login extends Component {
                     // login packet
                     let packet = CMD.LOGIN_REQ;
                     packet.adminId = res.data.id;
-                    window.ws.send(JSON.stringify(packet));
                     storage.set('token', res.data.token);
                     storage.set('userInfo', res.data);
                     setTimeout(() => {
