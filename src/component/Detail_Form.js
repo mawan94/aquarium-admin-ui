@@ -175,7 +175,7 @@ class Detail_Form extends React.Component {
                                             setDefaultValue={this.setDefaultValue}
                                             handleFormItemChange={this.handleFormItemChange}
                                             initValue={item.initValue}
-                                            options={item.options}
+                                            optionList={item.optionList}
                     />
                 );
                 break;

@@ -3,6 +3,76 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+
+    getArticleList(params) {
+        return get({
+            url: constant.host + '/article/b/v1/list',
+            params: params
+        })
+    },
+    getArticle(params) {
+        return get({
+            url: constant.host + '/article/b/v1/find',
+            params: params
+        })
+    },
+    addArticle(params) {
+        return post({
+            url: constant.host + '/article/b/v1/add',
+            data: params
+        })
+    },
+    updateArticle(params) {
+        return post({
+            url: constant.host + '/article/b/v1/modify',
+            data: params
+        })
+    },
+    deleteArticle(params) {
+        return post({
+            url: constant.host + '/article/b/v1/del',
+            data: params
+        })
+    },
+
+
+    getTagList(params) {
+        return get({
+            url: constant.host + '/tag/b/v1/list',
+            params: params
+        })
+    },
+    getTag(params) {
+        return get({
+            url: constant.host + '/tag/b/v1/find',
+            params: params
+        })
+    },
+    addTag(params) {
+        return post({
+            url: constant.host + '/tag/b/v1/add',
+            data: params
+        })
+    },
+    updateTag(params) {
+        return post({
+            url: constant.host + '/tag/b/v1/modify',
+            data: params
+        })
+    },
+    deleteTag(params) {
+        return post({
+            url: constant.host + '/tag/b/v1/del',
+            data: params
+        })
+    },
+    tagSelectors(params) {
+        return get({
+            url: constant.host + '/tag/b/v1/selectors',
+            params: params
+        })
+    },
+
     changeRoleMenu(params) {
         return post({
             url: constant.host + '/role-menu/b/v1/change',
@@ -269,6 +339,12 @@ const server = {
         return post({
             url: constant.host + '/product/b/v1/add',
             data: params
+        })
+    },
+    productSelectors(params) {
+        return get({
+            url: constant.host + '/product/b/v1/selectors',
+            params: params
         })
     },
     updateProduct(params) {

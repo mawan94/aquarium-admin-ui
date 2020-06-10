@@ -15,7 +15,7 @@ export default class FormItemMultipleSelect extends Component {
         setDefaultValue: PropTypes.func.isRequired,
         handleFormItemChange: PropTypes.func.isRequired,
         initValue: PropTypes.any,
-        options: PropTypes.array.isRequired,
+        optionList: PropTypes.array.isRequired,
     };
 
 
@@ -28,15 +28,25 @@ export default class FormItemMultipleSelect extends Component {
         }
     }
 
+    // getDefaultValue = (optionList, initValue) => {
+    //     let v = '';
+    //     optionList.map(item => {
+    //         if (item.value == initValue) {
+    //             v = item.label
+    //         }
+    //     });
+    //     return v
+    // };
+
     render() {
-        let {fieldName,initValue, options, handleFormItemChange} = this.props;
+        let {fieldName,initValue, optionList, handleFormItemChange} = this.props;
         return (
             <Select mode="multiple"
                     defaultValue={initValue}
                     onChange={(value) => handleFormItemChange(value, fieldName)}>
                 {
-                    options.map((item, index) => (
-                        <Option key={index} value={item.key}>{item.value}</Option>
+                    optionList.map((item, index) => (
+                        <Option key={index} value={item.value}>{item.label}</Option>
                     ))
                 }
             </Select>

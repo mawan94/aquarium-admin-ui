@@ -89,6 +89,14 @@ const list = [
     {
         key: 'roleMenu',
         router: require('../view/role-menu/router/role-menu').default
+    },
+    {
+        key: 'tag',
+        router: require('../view/tag/router/tag').default
+    },
+    {
+        key: 'article',
+        router: require('../view/article/router/article').default
     }
 ];
 export default {list: list};
