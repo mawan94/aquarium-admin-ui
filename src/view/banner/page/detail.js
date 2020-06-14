@@ -23,14 +23,14 @@ export default class Detail extends React.Component {
                 }
                 , {
                     fieldName: 'images',
-                    labelName: '商品缩略图',
+                    labelName: '轮播图',
                     initValue: [],
                     formItemType: FORM_ITEM_TYPE.IMAGE,
                     uploadMaxCount: 1,
                     required: true
                 }, {
                     fieldName: 'redirectRouter',
-                    labelName: '跳转页面',
+                    labelName: '跳转路由',
                     formItemType: FORM_ITEM_TYPE.TEXT,
                     initValue: '',
                     required: false,

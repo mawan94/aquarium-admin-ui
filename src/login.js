@@ -61,7 +61,7 @@ class Login extends Component {
                     <Form className="login-body-form">
                         <Row>
                             <div className="login-body-form-title">
-                                <img src={'brand_CD_Logos_HUB_RGB_color_web@2x.png'}/>
+                                {/*<img style={{width:'300px'}} src={'JINLOGYUTEXT.png'}/>*/}
                                 &nbsp;
                                 <div>
                                     <span style={{

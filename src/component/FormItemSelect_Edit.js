@@ -42,7 +42,10 @@ export default class FormItemSelect_Edit extends Component {
         let {fieldName, initValue, optionList, handleFormItemChange} = this.props;
         // optionList.unshift({value: null, label: ' '})
         return (
-            <Select showSearch allowClear={true} defaultValue={this.getDefaultValue(optionList, initValue)}
+            <Select showSearch
+                    allowClear={true}
+                    defaultValue={this.getDefaultValue(optionList, initValue)}
+                    optionFilterProp="children"
                     onChange={(value) => handleFormItemChange(value, fieldName)}>
                 {
                     optionList.map((item, index) => {

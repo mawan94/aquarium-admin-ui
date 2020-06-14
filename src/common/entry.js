@@ -97,6 +97,10 @@ const list = [
     {
         key: 'article',
         router: require('../view/article/router/article').default
+    },
+    {
+        key: 'customer',
+        router: require('../view/customer/router/customer').default
     }
 ];
 export default {list: list};

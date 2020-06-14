@@ -1,10 +1,9 @@
 import React from 'react'
-import {Button, Modal, Table, Tag} from 'antd';
+import {Button, Modal, Table,Tag} from 'antd';
 
 import MyTable from '../../../component/MyTable'
 import api from '../../../common/api'
 import MyImg from "../../../component/MyImg";
-import constant from "../../../common/constant";
 
 const confirm = Modal.confirm;
 
@@ -28,7 +27,7 @@ export default class Index extends React.Component {
     handleSearch = (pageIndex, pageSize) => {
         api.getCategoryList({pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
-            this.setState({total, data: records})
+            this.setState({total,pageIndex, pageSize, data: records})
         })
     };
 
@@ -61,11 +60,11 @@ export default class Index extends React.Component {
             key: 'display',
             render: (text) => {
                 if (text === 1) {
-                    return '展示'
+                    return <Tag color={'green'}>展示</Tag>
                 } else if (text === 2) {
-                    return '隐藏'
+                    return <Tag color={'volcano'}>隐藏</Tag>
                 } else {
-                    return 'UNKNOW'
+                    return <Tag color={'geekblue'}>UNKNOW</Tag>
                 }
             }
         }, {
@@ -211,7 +210,7 @@ class InnerList extends React.Component {
                                         cancelText: 'No',
                                         onOk() {
                                             api.deleteCategory({productCategoryId: record.categoryId}).then(res => {
-                                                _this.props.that.handleSearch(_this.props.that.state.pageIndex, _this.props.that.state.pageSize)
+                                                _this.handleLoadInnerList(_this.props.categoryId)
                                             })
                                         },
                                         onCancel() {

@@ -1,8 +1,10 @@
 import axios from 'axios'
-import { message } from 'antd';
+import {message, Spin} from 'antd';
 
 import storage from './storage';
 import ERROR_CODE from './errorCode';
+import React from 'react'
+import ReactDOM from 'react-dom';
 
 const http = axios.create({
     timeout: 50000
@@ -36,9 +38,10 @@ http.interceptors.response.use(
         if (error.response.data && !error.response.data.success && error.response.data.msg) {
             message.error(error.response.data.msg);
             let code = error.response.data.code
-            // if (code == ERROR_CODE.ILLEGAL_TOKEN ) {
-            //     alert('token失效，请重新登录!')
-            // }
+            if (code == ERROR_CODE.INVALID_TOKEN || code == ERROR_CODE.EMPTY_TOKEN) {
+                message.error('点击上方logo重新登录');
+                // window.location.href = constant.loginRouter
+            }
         }
         return Promise.reject(error);
     }
@@ -59,12 +62,15 @@ http.interceptors.response.use(
 
 // 封装get方法
 export function get({url, params}) {
+    showLoading()
     return new Promise((resolve, reject) => {
         http.get(url, {
             params: params
         }).then(res => {
+            hideLoading()
             resolve(res.data)
         }).catch(err => {
+            hideLoading()
             reject(err.data)
         })
     })
@@ -72,12 +78,37 @@ export function get({url, params}) {
 
 // 封装post方法
 export function post({url, data}) {
+    showLoading()
     return new Promise((resolve, reject) => {
         http.post(url, JSON.stringify(data)).then(res => {
+            hideLoading()
             resolve(res.data)
         }).catch(err => {
+            hideLoading()
             reject(err.data)
         })
     })
+}
+
+// 当前正在请求的数量
+let requestCount = 0
+
+// 显示loading
+function showLoading() {
+    if (requestCount === 0) {
+        var dom = document.createElement('div')
+        dom.setAttribute('id', 'loading')
+        document.body.appendChild(dom)
+        ReactDOM.render(<Spin tip="Loading..." size="large"/>, dom)
+    }
+    requestCount++
+}
+
+// 隐藏loading
+function hideLoading() {
+    requestCount--
+    if (requestCount === 0) {
+        document.body.removeChild(document.getElementById('loading'))
+    }
 }
 

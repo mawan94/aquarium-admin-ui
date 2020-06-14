@@ -27,7 +27,7 @@ export default class Index extends React.Component {
     handleSearch = (pageIndex, pageSize) => {
         api.getBannerList({pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
-            this.setState({total, data: records})
+            this.setState({total,pageIndex, pageSize, data: records})
         })
     };
 

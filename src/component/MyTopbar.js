@@ -38,25 +38,20 @@ export default class MyTopbar extends React.Component {
             </Menu>
         );
         return (
-            <span>
-                <div style={{
-                    color: '#999',
-                    marginLeft: '5px',
-                    marginRight: '15px',
-                    cursor: 'pointer'
-                }}>
-                    {/*<Icon type={'bell'} style={{color: '#999'}}/>*/}
-                    {/*                    <Badge count={5}>*/}
-                    {/*<span style={{margin: '12px '}} className="head-example">消息</span>*/}
-                    {/*                    </Badge>*/}
-                    <FullScreen/>
-                    <Dropdown overlay={topMenu}>
+            <div style={{
+                color: '#999',
+                // marginLeft: '5px',
+                // marginRight: '15px',
+                cursor: 'pointer'
+            }}>
+
+                <Dropdown overlay={topMenu}>
 										  <span style={{margin: '20px'}}>
                                                   <Avatar
                                                       src={
                                                           userInfo && userInfo.img ?
                                                               userInfo.img :
-                                                              'default-user-img.jpg'
+                                                              '/JLYLOGO.png'
                                                       }
                                                       style={{cursor: 'pointer'}}/>
                                                   <span style={{
@@ -66,9 +61,11 @@ export default class MyTopbar extends React.Component {
                                                       cursor: 'pointer'
                                                   }}>{userInfo ? userInfo.nickname : 'guest'}</span>
 										  </span>
-                    </Dropdown>
+                </Dropdown>
+                <div style={{float:'right',marginTop:'10 px'}}>
+                    <FullScreen/>
                 </div>
-            </span>
+            </div>
         )
     }
 

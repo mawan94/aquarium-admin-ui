@@ -77,6 +77,12 @@ class Detail extends React.Component {
                     initValue: 1,
                     required: true,
                 }, {
+                    fieldName: 'recommend',
+                    labelName: '是否推荐',
+                    formItemType: FORM_ITEM_TYPE.SWITCH,
+                    initValue: 2,
+                    required: true,
+                }, {
                     fieldName: 'mediaInformation',
                     labelName: '媒体展示',
                     formItemType: FORM_ITEM_TYPE.EDIT,
@@ -108,7 +114,7 @@ class Detail extends React.Component {
     }
 
     handleLoadSelectors = (formItemList) => {
-        api.getCategorySelectors().then(res => {
+        api.getChildCategorySelectors().then(res => {
             formItemList = util.initSelectDefaultValues('categoryId', res.data, formItemList)
             api.getSupplierSelectors().then(res => {
                 this.setState({
@@ -218,6 +224,12 @@ class SkuList extends React.Component {
                     }, {
                         fieldName: 'wholesaleThreshold',
                         labelName: '起批数量（含）',
+                        formItemType: FORM_ITEM_TYPE.NUMBER,
+                        initValue: '',
+                        required: true,
+                    }, {
+                        fieldName: 'weight',
+                        labelName: '展示优先级',
                         formItemType: FORM_ITEM_TYPE.NUMBER,
                         initValue: '',
                         required: true,
@@ -347,6 +359,12 @@ class SkuList extends React.Component {
                 }, {
                     fieldName: 'wholesaleThreshold',
                     labelName: '起批数量（含）',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
+                }, {
+                    fieldName: 'weight',
+                    labelName: '展示优先级',
                     formItemType: FORM_ITEM_TYPE.NUMBER,
                     initValue: '',
                     required: true,

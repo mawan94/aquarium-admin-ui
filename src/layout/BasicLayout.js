@@ -5,6 +5,7 @@ import {Switch, NavLink} from 'react-router-dom'
 import api from '../common/api'
 import entry from '../common/entry';
 import storage from '../common/storage';
+import constant from '../common/constant';
 import MyTopbar from '../component/MyTopbar'
 import MyFooter from '../component/MyFooter'
 
@@ -53,13 +54,13 @@ export default class BasicLayout extends React.Component {
                        collapsed={this.state.collapsed}
                        onCollapse={this.onCollapse}>
                     <div style={styles.titleWrap}>
-                        <img style={styles.titleImg} src={'/LOGO2.png'}/>
+                        <img style={styles.titleImg} src={'/JINLOGYUTEXT.png'}/>
                     </div>
-                    <div style={styles.titleText}>
-                        充电财务系统
-                    </div>
+                    {/*<div style={styles.titleText}>*/}
+                    {/*    {constant.projectName}*/}
+                    {/*</div>*/}
 
-                    <Menu theme="dark" mode="inline" defaultOpenKeys={['3', '8', '11']}>
+                    <Menu theme="dark" mode="inline">
                         {/*{*/}
                         {/*    menuList.map((item, index) => {*/}
                         {/*        if (item.child && item.child.length) {*/}
@@ -97,13 +98,13 @@ export default class BasicLayout extends React.Component {
                             this.state.menuList.map((item, index) => {
                                 if (item.menuItem && item.menuItem.length) {
                                     return (
-                                        <SubMenu title={
-                                            <span style={styles.subMenuText}>{item.subName}</span>
+                                        <SubMenu style={styles.subMenuText} title={
+                                            <span >{item.subName}</span>
                                         }
                                                  key={index}>
                                             {
                                                 item.menuItem.map((innerItem, innerIndex) =>
-                                                    <Menu.Item style={styles.menuItem}
+                                                    <Menu.Item
                                                                key={`${index}${innerIndex}`}>
                                                         {innerItem.icon ? <Icon type={innerItem.icon}/> : ''}
                                                         <NavLink
@@ -115,12 +116,12 @@ export default class BasicLayout extends React.Component {
                                     )
                                 } else {
                                     return (
-                                        <Menu.Item style={styles.menuItem}
+                                        <Menu.Item
                                                    key={index}>
                                             {item.icon ? <Icon type={item.icon}/> : ''}
                                             {item.link? <NavLink to={item.link}><span
-                                                style={styles.subMenuText}>{item.subName}</span></NavLink> : <span
-                                                style={styles.subMenuText}>{item.subName}</span>}
+                                               >{item.subName}</span></NavLink> : <span
+                                               >{item.subName}</span>}
                                         </Menu.Item>
                                     )
                                 }
@@ -152,10 +153,10 @@ export default class BasicLayout extends React.Component {
 const styles = {
     layout: {minHeight: '100vh'},
     layoutSider: {borderRight: "3px solid #F7F7F7"},
-    titleWrap: {color: '#fff', fontSize: 25, fontWeight: 800, padding: '18px'},
+    titleWrap: {color: '#fff', fontSize: 25, fontWeight: 800, padding: '8px 18px'},
     titleImg: {width: '100%'},
-    titleText: {padding: '0 16px', marginBottom: '20px', color: '#fff', fontSize: 22, fontWeight: 600},
-    subMenuText: {color: '#fff', fontSize: 17, float: 'left'},
+    titleText: {padding: '0 16px', marginBottom: '16px', color: '#fff', fontSize: 20, fontWeight: 600},
+    subMenuText: {color: '#fff', fontSize: 20 ,fontWeight: 600},
     menuItem: {margin: '17px 0', fontSize: 17},
     header: {background: '#fff', padding: 0},
     content: {margin: '0 16px'},

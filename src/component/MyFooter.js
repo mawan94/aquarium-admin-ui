@@ -10,8 +10,8 @@ export default class MyFooter extends React.Component {
 
     render() {
         return (
-            <Footer style={{textAlign: 'center'}}>© 2019 Hubject上海坤电版权所有 <a onClick={() => {
-            }}> 沪ICP备18042766号-1</a></Footer>
+            <Footer style={{textAlign: 'center'}}>© 2020 金龙鱼水族馆版权所有 <a onClick={() => {
+            }}> 苏ICP备20035112号-1</a></Footer>
         )
     }
 }

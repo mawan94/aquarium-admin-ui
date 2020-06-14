@@ -21,26 +21,48 @@ export default class Index extends React.Component {
             pageIndex: 1,
             pageSize: 10,
             total: 0,
+
+            childCategories: [],
+            supplierList: []
         }
     }
 
     // 钩子函数 頁面渲染完成时
     componentDidMount() {
         this.handleSearch(this.state.pageIndex, this.state.pageSize);
+        this.handlerInitChildCategory()
+        this.handlerInitSupplierList()
     }
 
 
     handleSearch = (pageIndex, pageSize) => {
         api.getProductList({...this.state.condition, pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
-            this.setState({total, data: records})
+            this.setState({total, pageIndex, pageSize, data: records})
         })
     };
+
+    // initChildCategory
+    handlerInitChildCategory = () => {
+        api.getChildCategorySelectors().then(res => {
+            this.setState({
+                childCategories: res.data
+            })
+        })
+    }
+
+    handlerInitSupplierList = () => {
+        api.getSupplierSelectors().then(res => {
+            this.setState({
+                supplierList: res.data
+            })
+        })
+    }
 
     render() {
         let _this = this;
         let columns = [{
-            title: '商品编号',
+            title: '编号',
             dataIndex: 'productId',
             key: 'productId',
         }, {
@@ -49,11 +71,11 @@ export default class Index extends React.Component {
             key: 'productName',
             render: text => <span style={{color: '#666600', fontWeight: 600}}>{text}</span>
         }, {
-            title: '供应商编号',
+            title: '供应商',
             dataIndex: 'supplierId',
             key: 'supplierId',
         }, {
-            title: '分类编号',
+            title: '所属分类',
             dataIndex: 'categoryId',
             key: 'categoryId',
         }, {
@@ -74,16 +96,20 @@ export default class Index extends React.Component {
                     return <Tag color={'geekblue'}>UNKNOW</Tag>
                 }
             }
+        }, {
+            title: '首页推荐',
+            dataIndex: 'recommend',
+            key: 'recommend',
+            render: (text) => {
+                if (text === 1) {
+                    return <Tag color={'green'}>推荐</Tag>
+                } else if (text === 2) {
+                    return <Tag color={'volcano'}>不推荐</Tag>
+                } else {
+                    return <Tag color={'geekblue'}>UNKNOW</Tag>
+                }
+            }
         },
-            //     {
-            //     title: '排序优先级',
-            //     dataIndex: 'weight',
-            //     key: 'weight'
-            // }, {
-            //     title: '简介',
-            //     dataIndex: 'description',
-            //     key: 'description'
-            // },
             {
                 title: '操作', dataIndex: '', key: 'x', render: (record) => {
                     return (
@@ -127,17 +153,42 @@ export default class Index extends React.Component {
                             labelName: '商品编号',
                             fieldName: 'productId'
                         },
-                        // {
-                        //     fieldType: FORM_ITEM_TYPE.SELECT,
-                        //     labelName: 'CPO',
-                        //     fieldName: 'cpoId',
-                        //     optionList: this.state.cecPartner.cpoList
-                        // },
+                        {
+                            fieldType: FORM_ITEM_TYPE.SELECT,
+                            labelName: '所属分类',
+                            fieldName: 'categoryId',
+                            optionList: this.state.childCategories
+                        },
+                        {
+                            fieldType: FORM_ITEM_TYPE.SELECT,
+                            labelName: '供应商',
+                            fieldName: 'supplierId',
+                            optionList: this.state.supplierList
+                        },
                         {
                             fieldType: FORM_ITEM_TYPE.INPUT,
                             labelName: '商品名称',
                             fieldName: 'productName'
-                        }
+                        },
+                        {
+                            fieldType: FORM_ITEM_TYPE.SELECT,
+                            labelName: '是否展示',
+                            fieldName: 'display',
+                            optionList: [
+                                {label: '展示', value: 1},
+                                {label: '不展示', value: 2},
+                            ]
+                        },
+                        {
+                            fieldType: FORM_ITEM_TYPE.SELECT,
+                            labelName: '首页推荐',
+                            fieldName: 'recommend',
+                            optionList: [
+                                {label: '推荐', value: 1},
+                                {label: '不推荐', value: 2},
+                            ]
+                        },
+
                     ]}
                         buttonList={[
                             {
@@ -221,15 +272,12 @@ class InnerList extends React.Component {
                 dataIndex: 'stock',
                 key: 'stock',
                 render: text => {
-                    return <span style={{fontWeight:600, color: '#666600'}}>{text}</span>
+                    return <span style={{fontWeight: 600, color: '#666600'}}>{text}</span>
                 }
             }, {
                 title: '零售价',
                 dataIndex: 'retailPrice',
                 key: 'retailPrice',
-                // render: text => {
-                //     return <span style={{color: 'red'}}>{text}</span>
-                // }
             }, {
                 title: '批发价',
                 dataIndex: 'wholesalePrice',
@@ -303,8 +351,6 @@ class InnerList extends React.Component {
                         this.props.that.props.history.push(`/sku/add/${this.props.productId}`)
                     }}>新增规格</Button>
                 </div>
-
-
             }
         />
     }

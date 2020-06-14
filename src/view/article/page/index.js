@@ -28,7 +28,7 @@ export default class Index extends React.Component {
     handleSearch = (pageIndex, pageSize) => {
         api.getArticleList({pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
-            this.setState({total, data: records})
+            this.setState({total,pageIndex,pageSize, data: records})
         })
     };
 
@@ -209,7 +209,7 @@ class InnerList extends React.Component {
             }
         ];
         return <Table
-            rowKey={record => record.categoryId}
+            rowKey={record => record.articleId}
             columns={columns}
             dataSource={this.state.list}
             pagination={false}

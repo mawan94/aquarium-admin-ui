@@ -26,7 +26,7 @@ export default class Index extends React.Component {
     handleSearch = (pageIndex, pageSize) => {
         api.getDeliveryList({pageIndex, pageSize}).then(res => {
             let {records, total} = res.data;
-            this.setState({total, data: records})
+            this.setState({total, pageIndex, pageSize,data: records})
         })
     };
 
@@ -82,8 +82,8 @@ export default class Index extends React.Component {
                                         okType: 'danger',
                                         cancelText: 'No',
                                         onOk() {
-                                            api.deleteDelivery({deliveryId: record.rechargeRuleId}).then(res => {
-                                                _this.handleSearch(_this.state.pageIndex, _this.state.deliveryId)
+                                            api.deleteDelivery({deliveryId: record.deliveryId}).then(res => {
+                                                _this.handleSearch(_this.state.pageIndex, _this.state.pageSize)
                                             })
                                         },
                                         onCancel() {

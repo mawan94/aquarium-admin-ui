@@ -3,6 +3,49 @@ import {get, post} from './http'
 import constant from '../common/constant'
 
 const server = {
+    getCustomerOrderList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/order',
+            params: params
+        })
+    },
+    getCustomerReceiveAddressList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/receive-address',
+            params: params
+        })
+    },
+    getCustomerRechargeRecordList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/recharge-record',
+            params: params
+        })
+    },
+    getCustomerCouponList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/coupon',
+            params: params
+        })
+    },
+    getCustomerCartList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/cart-info',
+            params: params
+        })
+    },
+    getCustomerBrowseHistoryList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/browse-history',
+            params: params
+        })
+    },
+    getCustomerList(params) {
+        return get({
+            url: constant.host + '/customer/b/v1/list',
+            params: params
+        })
+    },
+
 
     getArticleList(params) {
         return get({
@@ -317,6 +360,12 @@ const server = {
             params: params
         })
     },
+    getChildCategorySelectors(params) {
+        return get({
+            url: constant.host + '/category/b/v1/child',
+            params: params
+        })
+    },
     getSkuListByProductId(params) {
         return get({
             url: constant.host + '/sku/b/v1/list-by-product-id',
@@ -432,7 +481,7 @@ const server = {
     },
     getParentCategoryList(params) {
         return get({
-            url: constant.host + '/category/b/v1/parentCategory',
+            url: constant.host + '/category/b/v1/parent',
             params: params
         })
     },

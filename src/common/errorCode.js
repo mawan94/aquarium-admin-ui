@@ -1,6 +1,6 @@
 const ERROR_CODE = {
     EMPTY_TOKEN: 1002,
-    ILLEGAL_TOKEN: 1003
+    INVALID_TOKEN: 1003
 
 //      AUTHENTICATION_FAIL(1001, "权限不足"),
 //      EMPTY_TOKEN(1002, "token为空"),

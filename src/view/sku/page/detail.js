@@ -52,6 +52,12 @@ export default class Detail extends React.Component {
                     formItemType: FORM_ITEM_TYPE.NUMBER,
                     initValue: '',
                     required: true,
+                }, {
+                    fieldName: 'weight',
+                    labelName: '展示优先级',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: true,
                 }
 
             ]

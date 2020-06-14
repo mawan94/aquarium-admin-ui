@@ -42,6 +42,7 @@ export default class FormItemMultipleSelect extends Component {
         let {fieldName,initValue, optionList, handleFormItemChange} = this.props;
         return (
             <Select mode="multiple"
+                    optionFilterProp="children"
                     defaultValue={initValue}
                     onChange={(value) => handleFormItemChange(value, fieldName)}>
                 {

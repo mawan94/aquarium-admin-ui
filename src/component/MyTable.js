@@ -10,7 +10,10 @@ export default class MyTable extends React.Component {
 
     static defaultProps = {
         expandedRowRender: null,
-        onRow: () => {}
+        title: '',
+        displayExtra: true,
+        onRow: () => {
+        }
     };
 
     static propTypes = {
@@ -21,6 +24,8 @@ export default class MyTable extends React.Component {
         total: PropTypes.number,
         buttonClick: PropTypes.func,
         onRow: PropTypes.func,
+        title: PropTypes.string,
+        displayExtra: PropTypes.bool
     };
 
 
@@ -36,6 +41,7 @@ export default class MyTable extends React.Component {
         let total = this.props.total;
         let pageIndex = this.props.pageIndex;
         let pageSize = this.props.pageSize;
+        let title = this.props.title
 
         const pagination = {
             size: 'defalut',
@@ -53,8 +59,9 @@ export default class MyTable extends React.Component {
         return (
             <div style={{backgroundColor: '#fff', margin: '25px'}}>
                 <Card
-                    title=""
-                    extra={<Button type='primary' onClick={this.props.buttonClick}>新增</Button>}
+                    title={title}
+                    extra={this.props.displayExtra ?
+                        <Button type='primary' onClick={this.props.buttonClick}>新增</Button> : ''}
                     style={{width: '100%'}}
                 >
                     <Table dataSource={this.props.dataSource}

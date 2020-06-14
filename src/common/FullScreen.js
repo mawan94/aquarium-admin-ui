@@ -93,8 +93,8 @@ export default class FullScreen extends React.Component {
                 marginRight: '25px',
                 cursor: 'pointer'
             }} onClick={this.fullScreen}>
-                <Icon type={this.state.iconStyle} style={{color: '#999', fontSize: '24px'}}/>
-                <span style={{margin: '0 10px', fontSize: '24px'}}>{this.state.iconText}</span>
+                <Icon type={this.state.iconStyle} style={{color: '#999', fontSize: '18px'}}/>
+                <span style={{margin: '10px', fontSize: '18px'}}>{this.state.iconText}</span>
             </span>
         )
     }
