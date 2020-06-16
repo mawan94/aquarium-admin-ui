@@ -101,6 +101,19 @@ const list = [
     {
         key: 'customer',
         router: require('../view/customer/router/customer').default
+    },
+
+    {
+        key: 't-product',
+        router: require('../view/t-product/router/t-product').default
+    },
+    {
+        key: 't-cart',
+        router: require('../view/t-cart/router/t-cart').default
+    },
+    {
+        key: 't-order',
+        router: require('../view/t-order/router/t-order').default
     }
 ];
 export default {list: list};
