@@ -5,7 +5,6 @@ import api from './common/api'
 import constant from './common/constant'
 import MyFooter from './component/MyFooter'
 import storage from './common/storage'
-import CMD from "./common/cmd";
 
 
 class Login extends Component {
@@ -35,9 +34,7 @@ class Login extends Component {
 
             api.adminLogin({...values}).then(res => {
                 if (res.success) {
-                    // login packet
-                    let packet = CMD.LOGIN_REQ;
-                    packet.adminId = res.data.id;
+
                     storage.set('token', res.data.token);
                     storage.set('userInfo', res.data);
                     setTimeout(() => {

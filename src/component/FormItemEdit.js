@@ -42,7 +42,8 @@ export default class FormItemEdit extends React.Component {
 
     // 上传校验
     myValidateFn = (file) => {
-        return file.size < 1024 * 1024 * 30
+        console.log(file.size)
+        return file.size < 1024 * 1024 * 300
     }
 
     // 上传到指定服务器

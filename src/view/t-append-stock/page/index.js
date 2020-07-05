@@ -80,13 +80,13 @@ export default class Index extends React.Component {
     };
 
     handleOk = () => {
-        let {currentSku, value} = this.state
+        let {currentSku} = this.state
         if (!currentSku.skuId) {
             message.error('请选择规格');
             return
         }
-        api.changeTCart({...currentSku, num: value, selected: 1, type: 1}).then(res => {
-            message.success('加入购物车成功');
+        api.updateStock({...currentSku, newStock: currentSku.stock}).then(res => {
+            message.success('调整成功');
             this.handleCancel()
         })
     };
@@ -124,7 +124,7 @@ export default class Index extends React.Component {
                         <p>{item.productName}</p>
                     </div>
                     <div>
-                        <Button style={{zIndex: 2}} type="primary" onClick={() => this.showModal(item)}>加入购物车</Button>
+                        <Button style={{zIndex: 2}} type="primary" onClick={() => this.showModal(item)}>调整库存</Button>
                     </div>
                 </div>)
         })
@@ -220,7 +220,7 @@ export default class Index extends React.Component {
                             取消
                         </Button>,
                         <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
-                            添加
+                            确认调整
                         </Button>,
                     ]}
                 >
@@ -238,12 +238,13 @@ export default class Index extends React.Component {
                     </div>
                     <Divider/>
                     <div style={{width: '100%', display: 'flex', justifyContent: "center", alignItems: 'center'}}>
-                        <span>调拨数量： </span>
-                        <InputNumber min={1} disabled={this.state.disabled} value={this.state.value}
+                        <span>最新库存： </span>
+                        <InputNumber min={1} disabled={this.state.disabled}
+                                     value={this.state.currentSku.stock}
                                      onChange={(value) => {
-                                         this.setState({
-                                             value
-                                         })
+                                         let currentSku = this.state.currentSku;
+                                         currentSku.stock = value
+                                         this.setState({currentSku})
                                      }}/>
                     </div>
                 </Modal>

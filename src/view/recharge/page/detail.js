@@ -58,7 +58,7 @@ export default class Detail extends React.Component {
         }
     }
 
-    // // 加载分类下拉列表
+    // // 加载下拉列表
     handleLoadCouponSelectors = (formItemList) => {
         api.getCouponSelectors().then(res => {
             this.setState({

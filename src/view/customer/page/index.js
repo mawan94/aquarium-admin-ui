@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Tabs, Tag} from 'antd';
+import {Button, Modal, Tabs, Tag, Select, message, InputNumber} from 'antd';
 
 import MyTable from '../../../component/MyTable'
 import api from '../../../common/api'
@@ -7,14 +7,65 @@ import MyImg from "../../../component/MyImg";
 import moment from "moment";
 import FORM_ITEM_TYPE from "../../../common/formItemType";
 import MyForm from "../../../component/MyForm";
+import storage from "../../../common/storage";
 
 const confirm = Modal.confirm;
 const {TabPane} = Tabs;
+// 优惠券使用限制
+const COUPON_USE_LIMIT = {
+    1: '余额',
+    2: '无限制',
+}
+// 优惠券使用状态
+const COUPON_USE_TYPE = {
+    1: '未使用',
+    2: '已使用',
+    3: '过期',
+}
 
+// 支付方式
+const PAY_TYPE = {
+    1: '支付宝',
+    2: '微信',
+    3: '门店线下',
+    4: '余额',
+    5: '其他',
+}
+
+// 订单类型
+const ORDER_TYPE = {
+    1: '常规单',
+    2: '团购',
+    3: '秒杀',
+}
+
+// 配送方式
+const TAKE_TYPE = {
+    1: '送货上门',
+    2: '到店自提',
+}
+
+// 订单状态
+const ORDER_STATUS = {
+    1: '待付款',
+    2: '已付款',
+    3: '待发货',
+    4: '配送中',
+    5: '交易完成',
+    6: '已退款',
+    7: '超时',
+}
 export default class Index extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            currentProcessCustomerId: '',
+            currentProcessCouponId: '',
+            currentProcessBalance: '',
+
+            balanceModalVisible: false,
+            couponModalVisible: false,
+            couponList: [],
             data: [],
             pageIndex: 1,
             pageSize: 10,
@@ -66,11 +117,18 @@ export default class Index extends React.Component {
         }
     }
 
+
     // 钩子函数 頁面渲染完成时
     componentDidMount() {
+        this.handleLoadCouponSelectors()
         this.handleSearch(this.state.pageIndex, this.state.pageSize);
     }
 
+    handleLoadCouponSelectors = () => {
+        api.getCouponSelectors().then(res => {
+            this.setState({couponList: res.data})
+        })
+    }
 
     handleSearch = (pageIndex, pageSize) => {
         api.getCustomerList({...this.state.condition, pageIndex, pageSize}).then(res => {
@@ -78,6 +136,57 @@ export default class Index extends React.Component {
             this.setState({total, pageIndex, pageSize, data: records})
         })
         this.callback(this.state.key)
+    };
+
+    showModal = (type) => {
+        if (type == 'balance') {
+            this.setState({
+                balanceModalVisible: true,
+            });
+        } else if (type == 'coupon') {
+            this.setState({
+                couponModalVisible: true,
+            });
+        }
+    };
+    handleOk = type => {
+        console.log(type);
+        let {currentProcessCustomerId, currentProcessCouponId, currentProcessBalance, pageIndex, pageSize} = this.state;
+        if (type == 'balance' && currentProcessBalance) {
+            api.modifyBalance({customerId: currentProcessCustomerId, balance: currentProcessBalance}).then(res => {
+                if (res.data) {
+                    message.success('操作成功')
+                    this.handleSearch(pageIndex, pageSize)
+                }
+            })
+        } else if (type == 'coupon' && currentProcessCouponId) {
+            api.dispatchCoupon({
+                customerId: currentProcessCustomerId,
+                couponId: currentProcessCouponId
+            }).then(res => {
+                if (res.data) {
+                    message.success('操作成功')
+                    this.handleSearch(pageIndex, pageSize)
+                }
+            })
+        }
+        this.setState({
+            balanceModalVisible: false,
+            couponModalVisible: false,
+            currentProcessCustomerId: '',
+            currentProcessCouponId: '',
+            currentProcessBalance: '',
+        });
+    };
+    handleCancel = e => {
+        console.log('handleCancel');
+        this.setState({
+            balanceModalVisible: false,
+            couponModalVisible: false,
+            currentProcessCustomerId: '',
+            currentProcessCouponId: '',
+            currentProcessBalance: '',
+        });
     };
 
     callback = (key) => {
@@ -143,7 +252,11 @@ export default class Index extends React.Component {
     //-------------------------------------------------------------------------------------------------------------------
     handleSearchRechargeRecord = (pageIndex, pageSize) => {
         if (this.state.customerId) {
-            api.getCustomerRechargeRecordList({pageIndex, pageSize, customerId: this.state.customerId}).then(res => {
+            api.getCustomerRechargeRecordList({
+                pageIndex,
+                pageSize,
+                customerId: this.state.customerId
+            }).then(res => {
                 let {records, total} = res.data;
                 let {rechargeRecord} = this.state
                 rechargeRecord.total = total
@@ -157,7 +270,11 @@ export default class Index extends React.Component {
     //-------------------------------------------------------------------------------------------------------------------
     handleSearchReceiveAddress = (pageIndex, pageSize) => {
         if (this.state.customerId) {
-            api.getCustomerReceiveAddressList({pageIndex, pageSize, customerId: this.state.customerId}).then(res => {
+            api.getCustomerReceiveAddressList({
+                pageIndex,
+                pageSize,
+                customerId: this.state.customerId
+            }).then(res => {
                 let {records, total} = res.data;
                 let {receiveAddress} = this.state
                 receiveAddress.total = total
@@ -231,6 +348,32 @@ export default class Index extends React.Component {
             title: '积分',
             dataIndex: 'integral',
             key: 'integral',
+        }, {
+            title: '操作', dataIndex: '', key: 'x', render: (record) => {
+                if (!storage.get('userInfo')) {
+                    return ''
+                }
+                return storage.get('userInfo').roleType == 1 ?
+                    (
+                        <div>
+                            <div>
+                                <Button type="danger" onClick={() => {
+                                    this.setState({
+                                        currentProcessCustomerId: record.customerId,
+                                        currentProcessBalance: record.balance
+                                    })
+                                    this.showModal('balance')
+                                }}>余额变更</Button>
+                            </div>
+                            <div>
+                                <Button style={{marginTop: "20px"}} type="primary" onClick={() => {
+                                    this.setState({currentProcessCustomerId: record.customerId})
+                                    this.showModal('coupon')
+                                }}>派发优惠券</Button>
+                            </div>
+                        </div>
+                    ) : ''
+            }
         }
         ]
 
@@ -340,11 +483,13 @@ export default class Index extends React.Component {
         }, {
             title: '使用限制',
             dataIndex: 'useLimit',
-            key: 'useLimit'
+            key: 'useLimit',
+            render: text => <span>{COUPON_USE_LIMIT[text]}</span>
         }, {
-            title: 'status',
+            title: '使用状态',
             dataIndex: 'status',
-            key: 'status'
+            key: 'status',
+            render: text => <span>{COUPON_USE_TYPE[text]}</span>
         }, {
             title: '失效时间',
             dataIndex: 'endTime',
@@ -387,10 +532,7 @@ export default class Index extends React.Component {
             title: '付款方式',
             dataIndex: 'payType',
             key: 'payType',
-            render: text => {
-                if (text == '2') return '微信'
-                return text
-            }
+            render: text => <span>{PAY_TYPE[text]}</span>
         }, {
             title: '充值时间',
             dataIndex: 'rechargeTime',
@@ -455,14 +597,22 @@ export default class Index extends React.Component {
             title: '支付方式',
             dataIndex: 'payType',
             key: 'payType',
+            render: text => <span>{PAY_TYPE[text]}</span>
         }, {
             title: '订单类型',
             dataIndex: 'orderType',
             key: 'orderType',
+            render: text => <span>{ORDER_TYPE[text]}</span>
         }, {
             title: '配送方式',
             dataIndex: 'takeType',
-            key: 'takeType'
+            key: 'takeType',
+            render: text => <span>{TAKE_TYPE[text]}</span>
+        }, {
+            title: '订单状态',
+            dataIndex: 'orderStatus',
+            key: 'orderStatus',
+            render: text => <span>{ORDER_STATUS[text]}</span>
         }, {
             title: '实际付款',
             dataIndex: 'actualPay',
@@ -470,8 +620,17 @@ export default class Index extends React.Component {
         }, {
             title: '创建时间',
             dataIndex: 'createTime',
-            key: 'createTime'
+            key: 'createTime',
+            render: (text) => {
+                return moment(text).format('YYYY-MM-DD HH:mm:ss')
+            }
         }];
+
+        let selectorItemDOM = []
+        this.state.couponList.map(item => {
+            selectorItemDOM.push(<Select.Option value={item.value}>{item.label}</Select.Option>)
+        })
+
         return (
             <div>
                 <MyForm _this={this} onRowDisplayNum={3} bindName={'condition'} fields={
@@ -627,7 +786,35 @@ export default class Index extends React.Component {
                         />
                     </TabPane>
                 </Tabs>
-
+                <Modal
+                    title="余额变更"
+                    visible={this.state.balanceModalVisible}
+                    onOk={() => {
+                        this.handleOk('balance')
+                    }}
+                    onCancel={this.handleCancel}
+                >
+                    <InputNumber style={{width: '70%'}} value={this.state.currentProcessBalance}
+                                 onChange={(e) => {
+                                     this.setState({currentProcessBalance: e})
+                                 }}/>
+                </Modal>
+                <Modal
+                    title="派发优惠券"
+                    visible={this.state.couponModalVisible}
+                    onOk={() => {
+                        this.handleOk('coupon')
+                    }}
+                    onCancel={this.handleCancel}
+                >
+                    <Select value={this.state.currentProcessCouponId} placeholder={'请选择需要派发的优惠券'} style={{width: '70%'}} onChange={(val) => {
+                        this.setState({
+                            currentProcessCouponId: val
+                        })
+                    }}>
+                        {selectorItemDOM}
+                    </Select>
+                </Modal>
             </div>
         )
     }

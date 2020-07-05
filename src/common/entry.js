@@ -1,50 +1,4 @@
 const list = [
-    {
-        key: 'reconciliation',
-        router: require('../view/reconciliation/router/reconciliation').default
-    },
-    {
-        key: 'averageAccount',
-        router: require('../view/averageAccount/router/averageAccount').default
-    },
-    {
-        key: 'badAccount',
-        router: require('../view/badAccount/router/badAccount').default
-    },
-    {
-        key: 'settlement',
-        router: require('../view/settlement/router/settlement').default
-    },
-    {
-        key: 'settlementHistory',
-        router: require('../view/settlementHistory/router/settlementHistory').default
-    },
-    {
-        key: 'importAndExport',
-        router: require('../view/importAndExport/router/importAndExport').default
-    },
-    {
-        key: 'cpoEmpBind',
-        router: require('../view/cpoEmpBind/router/cpoEmpBind').default
-    },
-    {
-        key: 'workOrder',
-        router: require('../view/workOrder/router/workOrder').default
-    },
-    {
-        key: 'dataClear',
-        router: require('../view/dataClear/router/dataClear').default
-    },
-    {
-        key: 'financialDealing',
-        router: require('../view/financialDealing/router/financialDealing').default
-    },
-    {
-        key: 'settlementPay',
-        router: require('../view/settlementPay/router/settlementPay').default
-    },
-
-
     // ------------------------------------------------------------
     {
         key: 'category',
@@ -102,7 +56,6 @@ const list = [
         key: 'customer',
         router: require('../view/customer/router/customer').default
     },
-
     {
         key: 't-product',
         router: require('../view/t-product/router/t-product').default
@@ -114,6 +67,26 @@ const list = [
     {
         key: 't-order',
         router: require('../view/t-order/router/t-order').default
+    },
+    {
+        key: 't-log',
+        router: require('../view/t-log/router/t-log').default
+    },
+    {
+        key: 't-append-stock',
+        router: require('../view/t-append-stock/router/t-append-stock').default
+    },
+    {
+        key: 'Dashboard',
+        router: require('../view/dashboard/router/dashboard').default
+    },
+    {
+        key: 'InstructionManual',
+        router: require('../view/instruction-manual/router/instruction-manual').default
+    },
+    {
+        key: 'Feedback',
+        router: require('../view/feedback/router/feedback').default
     }
 ];
 export default {list: list};

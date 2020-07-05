@@ -2,7 +2,7 @@ import React from 'react'
 import {Avatar, Dropdown, Icon, Menu, Badge} from "antd";
 import storage from "../common/storage";
 import FullScreen from "../common/FullScreen";
-import CMD from "../common/cmd";
+
 
 export default class MyTopbar extends React.Component {
     constructor(props) {
@@ -25,8 +25,6 @@ export default class MyTopbar extends React.Component {
                 <Menu.Divider/>
                 <Menu.Item key="logout" onClick={() => {
                     let {userInfo} = this.props;
-                    let packet = CMD.CLOSE_CONNECT_REQ;
-                    packet.adminId = userInfo.adminId;
                     // 移除storage存储内容
                     storage.remove('token');
                     storage.remove('userInfo');

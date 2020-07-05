@@ -13,6 +13,11 @@ const util = {
     },
     guid: () => {
         return (util.S4() + util.S4() + "-" + util.S4() + "-" + util.S4() + "-" + util.S4() + "-" + util.S4() + util.S4() + util.S4());
+    },
+    isNum: (nubmer) => {
+        if (!nubmer) return false
+        if (isNaN(nubmer) == 0) return true
+        else return false
     }
 }
 

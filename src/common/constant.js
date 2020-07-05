@@ -3,7 +3,7 @@ const constant = {
     description: 'WELCOME TO ADMIN SYSTEM',
 
     host: 'http://127.0.0.1:8778',
-    imgHost: 'http://file.ddminihome.com',
+    imgHost: 'http://qco9etml7.bkt.clouddn.com',
 
     // host: 'https://www.jly2020.com/api',
     // imgHost: 'http://file.jly2020.com',

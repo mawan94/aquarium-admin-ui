@@ -53,6 +53,12 @@ export default class Detail extends React.Component {
                     initValue: '',
                     required: true,
                 }, {
+                    fieldName: 'safeStock',
+                    labelName: '安全库存',
+                    formItemType: FORM_ITEM_TYPE.NUMBER,
+                    initValue: '',
+                    required: false,
+                }, {
                     fieldName: 'weight',
                     labelName: '展示优先级',
                     formItemType: FORM_ITEM_TYPE.NUMBER,
